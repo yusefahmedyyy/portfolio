@@ -15,7 +15,7 @@
 
   --header-height:3.5rem;
 
-  --hue: 162;
+  --hue: 50;
   --first-color: hsl(var(--hue), 100%, 40%);
   --first-color-alt: hsl(var(--hue), 56%, 35%);
   --title-color: hsl(228, 8% , 95%);
