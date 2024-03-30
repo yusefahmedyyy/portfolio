@@ -46,11 +46,10 @@ const sendEmail = (e)=>{
     e.preventDefault()
 
 // serviceID - templateID - #form - publicKey
-    emailjs.sendForm('service_446dn9b' , 'template_pka6wyj', '#contact-form', 'acpbBlbTDvBBkb-sA' )
-
+    emailjs.sendForm('service_j4we4vv', 'template_pka6wyj', '#contact-form', 'WDD_B0wy0DVBcTglw')
     .then(()=>{
         // Show sent message
-        contactMessage.textContent = 'Message sent successfully'
+        contactMessage.textContent = 'Message sent successfully ✅'
         
 	    // Remove message after five seconds
 
@@ -63,7 +62,7 @@ const sendEmail = (e)=>{
 
     }, () =>{
         // Show error message
-        contactMessage.textContent = 'Message not sent (service error)'
+        contactMessage.textContent = 'Message not sent (service error) ❌'
         
     })
 }
@@ -100,6 +99,7 @@ const scrollActive =()=>{
     })
 
 }
+
 window.addEventListener('scroll', scrollActive)
 // scroll reveal animation
 const  sr = ScrollReveal({
