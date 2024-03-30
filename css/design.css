@@ -15,11 +15,11 @@
 
   --header-height:3.5rem;
 
-  --hue: 50;
+  --hue: 1;
   --first-color: hsl(var(--hue), 100%, 40%);
   --first-color-alt: hsl(var(--hue), 56%, 35%);
   --title-color: hsl(228, 8% , 95%);
-  --text-color: hsl(228, 8% , 65%);
+  --text-color: hsl(291, 8%, 65%);
   --body-color: hsl(228, 15% , 20%);
   --container-color: hsl(228, 15% , 15%);
   --body-font:  'Poppins', sans-serif;
