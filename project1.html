@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Card Layout</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+    padding: 20px;
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .card video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-content h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  .card-content p {
+    color: #666;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <video controls>
+          <source src="video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="card-content">
+          <h3>X-CARE</h3>
+          <p>X-CARE is an app (we also have a webapp) in which we connect the doctor with a far away patient for an online paid CONSULTANT via a video call + other feautures like booking and viewing doctors news/ blog and more presented on the below photos as the medical chat bot that consults you and advices you to book with wich doctor </p>
+        </div>
+      </div>
+  <div class="card">
+    <img src="images/welcomepage.png" alt="Photo 1">
+    <div class="card-content">
+      <h3>WELCOME SCREEN</h3>
+      <p>Here is where the app loads to the the user at first after displaying the splash screen, as you can see we have bottom nav bar that navigates through the other screens and in the body we have our logo at the center I can also add it as title in app bar instead of 'welcome to xcare ' and we have under it a button which navigates to the blog screen . </p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/blogpage.png" alt="Photo 2">
+    <div class="card-content">
+      <h3>BLOG/NEWS SCREEN</h3>
+      <p>Here I display the latest news of the app or Blog of the doctors </p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/appointmentpage.png" alt="Photo 3">
+    <div class="card-content">
+      <h3>BOOKING SCREEN</h3>
+      <p>Here is where we book consultant appointments with the doctors</p>
+    </div>
+  </div> <div class="card">
+    <img src="images/timebook.png" alt="Photo 3">
+    <div class="card-content">
+      <h3>BOOKING PROCCESS</h3>
+      <p>Booking proccess in which you choose available time and dates</p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/botpage.png" alt="Photo 4">
+    <div class="card-content">
+      <h3>MEDICAL AI BOT MODEL</h3>
+      <p>Welcome to our AI-powered medical consultation platform! Here, you can engage with an advanced AI model specifically trained to address your medical inquiries. Simply pose your questions, and our system will promptly provide informed responses, guiding you through your concerns with comprehensive and satisfying answers. + advices you to book with a specific doctor. </p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/doctorpage.png" alt="Photo 4">
+    <div class="card-content">
+      <h3>DOCTORS PAGE</h3>
+      <p>Here we display our doctors it could also be categorized even more as your needs.</p>
+    </div>
+  </div> 
+
+</div>
+</body>
+</html>
