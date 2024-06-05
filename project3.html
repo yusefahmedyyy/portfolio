@@ -44,10 +44,17 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
-
   .card-content {
     padding: 20px;
-  }
+    height: calc(100% - 100px); /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.card-content p {
+    color: #666;
+    overflow-wrap: break-word; /* Wrap long words to prevent overflow */
+}
+
 
   .card-content h3 {
     margin-top: 0;
@@ -55,9 +62,7 @@
     color: #333;
   }
 
-  .card-content p {
-    color: #666;
-  }
+
 
   @media (max-width: 768px) {
     .container {
