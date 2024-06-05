@@ -13,13 +13,12 @@
   }
 
   .container {
-    height: 100vh; /* Set container height to 100% of viewport height */
-    margin: 0;
-    padding: 20px;
+    max-width: 100%;
+    margin: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: 20px;
-    overflow-y: hidden; /* Hide vertical scrollbar */
+    padding: 20px;
   }
 
   .card {
@@ -44,17 +43,10 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
+
   .card-content {
     padding: 20px;
-    height: calc(100% - 100px); /* Adjust the height as needed */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
-}
-
-.card-content p {
-    color: #666;
-    overflow-wrap: break-word; /* Wrap long words to prevent overflow */
-}
-
+  }
 
   .card-content h3 {
     margin-top: 0;
@@ -62,7 +54,9 @@
     color: #333;
   }
 
-
+  .card-content p {
+    color: #666;
+  }
 
   @media (max-width: 768px) {
     .container {
@@ -95,6 +89,14 @@
       <p>The Product Item widget represents an individual product within the grid. It displays a product image, title, rating, and price, and handles navigation to the Product Detail Screen when tapped.      </p>
     </div>
   </div> 
+  <!-- <div class="card">
+    <img src="images/WhatsApp Image 2024-04-16 at 00.29.16.jpeg" alt="Photo 4">
+    <div class="card-content">
+      <h3>Narnoura </h3>
+      <p>thank you ya narnoura for being my friend your friendship means everything to me w ela5 , hope you achieve all of your goals and ill be sticking along to watch you rocking it </p>
+    </div>
+  </div>  -->
+
 </div>
 </body>
 </html>
