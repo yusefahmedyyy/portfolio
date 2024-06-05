@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project-Preview</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+
+  .container {
+    max-width: 100%;
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+    padding: 20px;
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .card video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-content h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  .card-content p {
+    color: #666;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+  }
+</style>
+</head>
+<body style="background-color: aqua;">
+
+  <div class="card">
+    <img src="images/store1.png" alt="Photo 1">
+    <div class="card-content">
+      <h3>PRODUCT DETAIL SCREEN</h3>
+      <p>The Product Detail Screen provides detailed information about a selected product. It includes a carousel of product images, product title, brand, price, description, and options for selecting color and size. Users can adjust the quantity and use buttons to add the product to their wishlist or proceed to the order page.</p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/store2.png" alt="Photo 4">
+    <div class="card-content">
+      <h3>HOME SCREEN</h3>
+      <p>The Home Screen is the main entry point of the app. It features a navigation drawer with user profile information and menu items. The main area displays a grid of products, each with an image, title, rating, and price. Tapping a product navigates to the Product Detail Screen.</p>
+    </div>
+  </div>
+  
+  <div class="card">
+    <img src="images/store3.png" alt="Photo 3">
+    <div class="card-content">
+      <h3>PRODUCT ITEM WIDGET</h3>
+      <p>The Product Item widget represents an individual product within the grid. It displays a product image, title, rating, and price, and handles navigation to the Product Detail Screen when tapped.      </p>
+    </div>
+  </div> 
+  <!-- <div class="card">
+    <img src="images/WhatsApp Image 2024-04-16 at 00.29.16.jpeg" alt="Photo 4">
+    <div class="card-content">
+      <h3>Narnoura </h3>
+      <p>thank you ya narnoura for being my friend your friendship means everything to me w ela5 , hope you achieve all of your goals and ill be sticking along to watch you rocking it </p>
+    </div>
+  </div>  -->
+
+</div>
+</body>
+</html>
