@@ -4,20 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X-CARE</title>
+    <title>Responsive Carousel with Fixed Height</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            overflow: hidden; /* Prevents the page from scrolling */
+            height: 100vh; /* Ensure the body takes up full height without scrolling */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             background-image: url('images/webback.jpg'); /* Add your background image here */
             background-size: cover; /* Ensure the background covers the whole page */
             background-position: center; /* Center the background image */
-            background-repeat: no-repeat; /* Prevent repeating the background image */
+            background-repeat: repeat; /* Prevent repeating the background image */
         }
 
         .carousel-container {
@@ -32,6 +33,7 @@
             padding: 20px; /* Optional: Add some padding */
             box-sizing: border-box;
             flex-direction: row;
+            height: 100%; /* Fixes height to prevent page movement */
         }
 
         .description {
@@ -57,9 +59,9 @@
         }
 
         .carousel-wrapper {
-            width: 60%;
+            width: 100%;
             max-width: 500px;
-            height: 700px;
+            height: 100%; /* Ensures the carousel maintains a fixed height */
             overflow: hidden;
             position: relative;
             flex-shrink: 0;
@@ -80,11 +82,14 @@
 
         .slide img,
         .slide video {
-            width: 100%;
-            height: 100%;
-            object-fit: initial;
-            display: block;
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            position: fixed;
+            display: flex;
             border-radius: 25px;
+            justify-content: center;
+            align-items: center;
         }
 
         .slide .prev,
@@ -174,11 +179,11 @@
 
         @media (max-width: 480px) {
             .carousel-wrapper {
-                height: 600px;
+                height: 550px;
             }
 
             .slide {
-                height: 650px;
+                height: 550px;
             }
 
             .slide .prev,
@@ -199,7 +204,7 @@
 
         <div class="carousel-wrapper">
             <div class="carousel">
-                <div class="slide" data-left-description="X-CARE" data-right-description="X-CARE is a flutter app (we also have a webapp) in which we connect the doctor with a far away patient for an online paid CONSULTANT via a video call + other features like booking and viewing doctors news/ blog and more presented on the below photos as the medical chat bot that consults you and advices you to book with which doctor ">
+                <div class="slide" data-left-description="X-CARE " data-right-description="X-CARE is a flutter app (we also have a webapp) in which we connect the doctor with a far away patient for an online paid CONSULTANT via a video call + other features like booking and viewing doctors news/ blog and more presented on the below photos as the medical chat bot that consults you and advices you to book with which doctor ">
                     <video controls>
                         <source src="images/project1-vid.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -207,7 +212,7 @@
                     <button class="prev">&lt;</button>
                     <button class="next">&gt;</button>
                 </div>
-                <div class="slide" data-left-description="WELCOME SCREEN" data-right-description="Here is where the app loads to the the user at first after displaying the splash screen, as you can see we have bottom nav bar that navigates through the other screens and in the body we have our logo at the center I can also add it as title in app bar instead of 'welcome to xcare ' and we have under it a button which navigates to the blog screen .">
+                <div class="slide" data-left-description="WELCOME SCREEN (tap photo to expand)" data-right-description="Here is where the app loads to the the user at first after displaying the splash screen, as you can see we have bottom nav bar that navigates through the other screens and in the body we have our logo at the center I can also add it as title in app bar instead of 'welcome to xcare ' and we have under it a button which navigates to the blog screen .">
                     <img src="images/welcomepage.png" alt="Photo 1">
                     <button class="prev">&lt;</button>
                     <button class="next">&gt;</button>
@@ -237,12 +242,11 @@
                     <button class="prev">&lt;</button>
                     <button class="next">&gt;</button>
                 </div>
-                <div class="slide" data-left-description="DOCTORS PAGE" data-right-description="Here we display our doctors it could also be categorized even more as your needs.+ data fetched from customed API">
-                    <img src="images/doctorpage.png" alt="Photo 4">
+                <div class="slide" data-left-description="DOCTORS PAGE" data-right-description="Here we display our doctors it could also be categorized even more as your needs.+ data fetched from customed API ">
+                    <img src="images/doctorpage.png" alt="Photo 5">
                     <button class="prev">&lt;</button>
                     <button class="next">&gt;</button>
                 </div>
-                <!-- Add more slides as needed -->
             </div>
         </div>
 
@@ -251,7 +255,6 @@
         </div>
     </div>
 
-    <!-- Fullscreen Image Container -->
     <div class="fullscreen-img">
         <span class="close-fullscreen">&times;</span>
         <img src="" alt="Fullscreen Image">
@@ -294,11 +297,13 @@
 
             prevButton.addEventListener('click', (event) => {
                 event.stopPropagation();
+                event.preventDefault(); // Prevent default scrolling
                 showPrevSlide();
             });
 
             nextButton.addEventListener('click', (event) => {
                 event.stopPropagation();
+                event.preventDefault(); // Prevent default scrolling
                 showNextSlide();
             });
 
