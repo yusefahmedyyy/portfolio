@@ -1,92 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project-Preview</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Trouble</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents the page from scrolling */
+            height: 100vh; /* Ensure the body takes up full height without scrolling */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('images/webback.jpg'); /* Add your background image here */
+            background-size: cover; /* Ensure the background covers the whole page */
+            background-position: center; /* Center the background image */
+            background-repeat: repeat; /* Prevent repeating the background image */
+        }
 
-  .container {
-    max-width: 100%;
-    margin: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-gap: 20px;
-    padding: 20px;
-  }
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            background: rgba(234, 37, 37, 0.064); /* Optional: Add a semi-transparent background to the carousel container */
+            border-radius: 10px; /* Optional: Add rounded corners */
+            padding: 20px; /* Optional: Add some padding */
+            box-sizing: border-box;
+            flex-direction: row;
+            height: 100%; /* Fixes height to prevent page movement */
+        }
 
-  .card {
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+        .description {
+            width: 250px;
+            padding: 10px;
+           
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 10px;
+            text-align: center;
+    
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
 
-  .card img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
+        .description.left {
+            text-align: right;
+            width: 250px;
+        }
 
-  .card video {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
+        .description.right {
+            text-align: left;
+            width: 250px;
+        }
 
-  .card-content {
-    padding: 20px;
-  }
+        .carousel-wrapper {
+            width: 100%;
+            max-width: 500px;
+            height: 100%; /* Ensures the carousel maintains a fixed height */
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+        }
 
-  .card-content h3 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    color: #333;
-  }
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
 
-  .card-content p {
-    color: #666;
-  }
+        .slide {
+            min-width: 100%;
+            height: auto;
+            position: relative;
+            cursor: pointer;
+            
+        }
 
-  @media (max-width: 768px) {
-    .container {
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-  }
-</style>
+        .slide img,
+        .slide video {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            position: fixed;
+            display: flex;
+            border-radius: 25px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide .prev,
+        .slide .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50%;
+            z-index: 2;
+            font-size: 20px;
+            line-height: 1;
+            width: 40px;
+            height: 40px;
+        }
+
+        .slide .prev {
+            left: 10px;
+        }
+
+        .slide .next {
+            right: 10px;
+        }
+
+        .fullscreen-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+
+        .fullscreen-img img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .fullscreen-img.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @media (max-width: 768px) {
+            .carousel-container {
+                flex-direction: column;
+            }
+
+            .description {
+                width: 100%;
+                margin-bottom: 5px;
+                /* padding: 10px; */
+            }
+
+            .carousel-wrapper {
+                width: 100%;
+                height: auto;
+                max-width: none;
+            }
+
+            .slide {
+                height: 650px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-wrapper {
+                height: 500px;
+            }
+
+            .slide {
+                height: 500px;
+            }
+
+            .slide .prev,
+            .slide .next {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
-<body>
-<div class="container">
-    <div class="card">
-        <video controls>
-          <source src="video.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="card-content">
-          <h3>DoubleTrouble</h3>
-          <p>DoubleTrouble is a flutter game in which you try to avoid the bouncing ball and you have three lives and you'll die, also you can hit it with missles and gain score
-             </p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="images/game2.jpeg" alt="Photo 1">
-      </div>
-       <div class="card">
-        <img src="images/game4.jpeg" alt="Photo 1">
-       </div> <div class="card">
-        <img src="images/game3.jpeg" alt="Photo 1">
-      </div> 
 
-</div>
+<body>
+    <div class="carousel-container">
+        <div class="description left">
+            <p>This is the left description.</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="carousel">
+                <div class="slide" data-left-description="DoubleTrouble " data-right-description="DoubleTrouble is a flutter game in which you try to avoid the bouncing ball and you have three lives and you'll die, also you can hit it with missles and gain score
+                  ">
+                  <video controls>
+                    <source src="video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                  <img src="images/game2.jpeg" alt="Photo 1">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                  <img src="images/game4.jpeg" alt="Photo 1">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                  <img src="images/game3.jpeg" alt="Photo 1">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+               
+
+    <script>
+        const carousel = document.querySelector('.carousel');
+        const slides = document.querySelectorAll('.slide');
+        const fullscreenImg = document.querySelector('.fullscreen-img');
+        const fullscreenImgTag = fullscreenImg.querySelector('img');
+        const closeFullscreen = document.querySelector('.close-fullscreen');
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            carousel.style.transform = `translateX(-${index * 100}%)`;
+            updateDescriptions(index);
+        }
+
+        function updateDescriptions(index) {
+            const leftDesc = document.querySelector('.description.left p');
+            const rightDesc = document.querySelector('.description.right p');
+            const slide = slides[index];
+            leftDesc.textContent = slide.dataset.leftDescription;
+            rightDesc.textContent = slide.dataset.rightDescription;
+        }
+
+        function showPrevSlide() {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+            showSlide(currentIndex);
+        }
+
+        function showNextSlide() {
+            currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+            showSlide(currentIndex);
+        }
+
+        slides.forEach((slide, index) => {
+            const prevButton = slide.querySelector('.prev');
+            const nextButton = slide.querySelector('.next');
+
+            prevButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                event.preventDefault(); // Prevent default scrolling
+                showPrevSlide();
+            });
+
+            nextButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                event.preventDefault(); // Prevent default scrolling
+                showNextSlide();
+            });
+
+            slide.addEventListener('click', function () {
+                const imgSrc = this.querySelector('img').src;
+                fullscreenImgTag.src = imgSrc;
+                fullscreenImg.classList.add('visible');
+            });
+        });
+
+        closeFullscreen.addEventListener('click', () => {
+            fullscreenImg.classList.remove('visible');
+        });
+
+        // Show the first slide and descriptions initially
+        showSlide(currentIndex);
+    </script>
 </body>
+
 </html>
