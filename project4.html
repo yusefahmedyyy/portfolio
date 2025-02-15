@@ -11,6 +11,14 @@
             padding: 0;
             user-select: none;
         }
+        html, body {
+    height: 100%;
+    overflow: hidden;
+}
+.carousel-container {
+    height: 100vh; /* Ensure full height */
+}
+
         body {
             display: flex;
             justify-content: center;
@@ -22,7 +30,7 @@
         }
         .carousel-container {
             width: 100vw;
-            height: 70vh;
+            height: 100vh;
             overflow: hidden;
             position: relative;
         }
