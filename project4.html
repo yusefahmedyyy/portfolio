@@ -1,429 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SONA3</title>
+    <title>App Showcase</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevents the page from scrolling */
-            height: 100vh; /* Ensure the body takes up full height without scrolling */
+        }
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('images/webback.jpg'); /* Add your background image here */
-            background-size: cover; /* Ensure the background covers the whole page */
-            background-position: center; /* Center the background image */
-            background-repeat: repeat; /* Prevent repeating the background image */
+            min-height: 100vh;
+            background-color: #f4f4f4;
         }
-
         .carousel-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            background: rgba(234, 37, 37, 0.064); /* Optional: Add a semi-transparent background to the carousel container */
-            border-radius: 10px; /* Optional: Add rounded corners */
-            padding: 20px; /* Optional: Add some padding */
-            box-sizing: border-box;
-            flex-direction: row;
-            height: 100%; /* Fixes height to prevent page movement */
-        }
-
-        .description {
-            width: 250px;
-            padding: 10px;
-           
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            border-radius: 10px;
-            text-align: center;
-    
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-        }
-
-        .description.left {
-            text-align: right;
-            width: 250px;
-        }
-
-        .description.right {
-            text-align: left;
-            width: 250px;
-        }
-
-        .carousel-wrapper {
-            width: 100%;
-            max-width: 500px;
-            height: 100%; /* Ensures the carousel maintains a fixed height */
+            width: 80%;
+            max-width: 900px;
             overflow: hidden;
             position: relative;
-            flex-shrink: 0;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            background: white;
+            padding: 20px;
         }
-
         .carousel {
             display: flex;
             transition: transform 0.5s ease-in-out;
-            height: 100%;
         }
-
         .slide {
             min-width: 100%;
-            height: auto;
-            position: relative;
-            cursor: pointer;
-            
+            text-align: center;
         }
-
-        .slide img,
-        .slide video {
-            width: 90%;
-            height: 90%;
-            object-fit: contain;
-            position: fixed;
-            display: flex;
-            border-radius: 25px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .slide .prev,
-        .slide .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 50%;
-            z-index: 2;
-            font-size: 20px;
-            line-height: 1;
-            width: 40px;
-            height: 40px;
-        }
-
-        .slide .prev {
-            left: 10px;
-        }
-
-        .slide .next {
-            right: 10px;
-        }
-
-        .fullscreen-img {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .slide img {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-        }
-
-        .fullscreen-img img {
-            max-width: 90%;
-            max-height: 90%;
             border-radius: 10px;
         }
-
-        .fullscreen-img.visible {
-            visibility: visible;
-            opacity: 1;
+        .dots {
+            text-align: center;
+            margin-top: 10px;
         }
-
-        .close-fullscreen {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 30px;
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
             cursor: pointer;
-            z-index: 1001;
+            transition: background-color 0.3s ease;
         }
-
-        @media (max-width: 768px) {
-            .carousel-container {
-                flex-direction: column;
-            }
-
-            .description {
-                width: 100%;
-                margin-bottom: 5px;
-                /* padding: 10px; */
-            }
-
-            .carousel-wrapper {
-                width: 100%;
-                height: auto;
-                max-width: none;
-            }
-
-            .slide {
-                height: 650px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .carousel-wrapper {
-                height: 500px;
-            }
-
-            .slide {
-                height: 500px;
-            }
-
-            .slide .prev,
-            .slide .next {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
-            }
+        .active {
+            background-color: #555;
         }
     </style>
 </head>
-
 <body>
     <div class="carousel-container">
-        <div class="description left">
-            <p>This is the left description.</p>
+        <div class="carousel" id="carousel">
+            <div class="slide"><img src="images/sona3/carts.png" alt="App Screenshot 1"></div>
+            <div class="slide"><img src="https://via.placeholder.com/800x400/ff7f7f" alt="App Screenshot 2"></div>
+            <div class="slide"><img src="https://via.placeholder.com/800x400/77ff77" alt="App Screenshot 3"></div>
         </div>
-
-        <div class="carousel-wrapper">
-            <div class="carousel">
-               
-                <div class="slide" data-left-description="SONA3" data-right-description="E-COMMERCE STORE (a multiple language app) ;)  with ordering system , payment gateway , delivery system , be seller be customer and adminstration (control panel) and much more features like pincode for admin and authentication for users and and storyboard and  phone number with otp check and id card auth and dark mode and much more .... ">
-                  <img src="images/sona3/mainrest.png" alt="Photo 1">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="light mode ;)" data-right-description="HOME SCREEN">
-                  <img src="images/sona3/lightmain.png" alt="Photo 1">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="SIGN IN" data-right-description="YOU CAN ALSO SIGN IN AS GUEST">
-                  <img src="images/sona3/sign-in.png" alt="Photo 1">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                 <div class="slide" data-left-description="SIGN UP" data-right-description="firebase email authentication">
-                  <img src="images/sona3/signup.png" alt="Photo 1">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="PHONE VERIFICATION" data-right-description="firebase phone authentication">
-                    <img src="images/sona3/phone.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="Code sent" data-right-description="firebase phone authentication">
-                    <img src="images/sona3/phoneveri.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="list of restauarants" data-right-description="">
-                    <img src="images/sona3/restlist.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="Restauarant meals" data-right-description="list of the restauarant meals">
-                    <img src="images/sona3/burgerjingmeals.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="Meal Details" data-right-description="you can add to favourite too">
-                    <img src="images/sona3/mealdetail1.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="ADDED TO CART ✅" data-right-description="DONE">
-                    <img src="images/sona3/2mealdetail.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="CART" data-right-description="Your order">
-                    <img src="images/sona3/carts.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="Empty cart" data-right-description="">
-                    <img src="images/sona3/empty cart.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="Favorites" data-right-description="Your fav items">
-                    <img src="images/sona3/fav.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="Profile" data-right-description="">
-                    <img src="images/sona3/profilesona3.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="Admin" data-right-description="here admin can remove and delete sellers/stores/products">
-                    <img src="images/sona3/controlpanel.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="ADMIN PASS" data-right-description="">
-                    <img src="images/sona3/adminpass.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="ADD PRODUCTS" data-right-description="seller adding products to their store that they created before that">
-                    <img src="images/sona3/arabic create store.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="storyboard" data-right-description="taking the user in a small journey to know more about the app">
-                    <img src="images/sona3/storyboard.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/lightprofile.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/light cart.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/lightmealdetails.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/light fav.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="I translated the app to arabic " data-right-description="enjoy the arabic versions :) ">
-                    <img src="images/sona3/arabicstorybaorrd.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/arabicsignin.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/arabic signup.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/arabic emtpy cart.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/sona3/2arabicstoryboard.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-                  <div class="slide" data-left-description="SONA3" data-right-description="splash screen">
-                    <img src="images/sona3/home.png" alt="Photo 1">
-                      <button class="prev">&lt;</button>
-                      <button class="next">&gt;</button>
-                  </div>
-
-            </div>
-        </div>
-
-        <div class="description right">
-            <p>This is the right description.</p>
-        </div>
+        <div class="dots" id="dots"></div>
     </div>
-
-    <div class="fullscreen-img">
-        <span class="close-fullscreen">&times;</span>
-        <img src="" alt="Fullscreen Image">
-    </div>
-
+    
     <script>
-        const carousel = document.querySelector('.carousel');
+        const carousel = document.getElementById('carousel');
+        const dotsContainer = document.getElementById('dots');
         const slides = document.querySelectorAll('.slide');
-        const fullscreenImg = document.querySelector('.fullscreen-img');
-        const fullscreenImgTag = fullscreenImg.querySelector('img');
-        const closeFullscreen = document.querySelector('.close-fullscreen');
-        let currentIndex = 0;
+        let index = 0;
 
-        function showSlide(index) {
+        slides.forEach((_, i) => {
+            let dot = document.createElement('span');
+            dot.classList.add('dot');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goToSlide(i) {
+            index = i;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
             carousel.style.transform = `translateX(-${index * 100}%)`;
-            updateDescriptions(index);
-        }
-
-        function updateDescriptions(index) {
-            const leftDesc = document.querySelector('.description.left p');
-            const rightDesc = document.querySelector('.description.right p');
-            const slide = slides[index];
-            leftDesc.textContent = slide.dataset.leftDescription;
-            rightDesc.textContent = slide.dataset.rightDescription;
-        }
-
-        function showPrevSlide() {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
-            showSlide(currentIndex);
-        }
-
-        function showNextSlide() {
-            currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
-            showSlide(currentIndex);
-        }
-
-        slides.forEach((slide, index) => {
-            const prevButton = slide.querySelector('.prev');
-            const nextButton = slide.querySelector('.next');
-
-            prevButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                event.preventDefault(); // Prevent default scrolling
-                showPrevSlide();
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
             });
+        }
 
-            nextButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                event.preventDefault(); // Prevent default scrolling
-                showNextSlide();
-            });
-
-            slide.addEventListener('click', function () {
-                const imgSrc = this.querySelector('img').src;
-                fullscreenImgTag.src = imgSrc;
-                fullscreenImg.classList.add('visible');
-            });
-        });
-
-        closeFullscreen.addEventListener('click', () => {
-            fullscreenImg.classList.remove('visible');
-        });
-
-        // Show the first slide and descriptions initially
-        showSlide(currentIndex);
+        updateCarousel();
     </script>
 </body>
-
 </html>
