@@ -9,39 +9,44 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            user-select: none;
         }
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             background-color: #f4f4f4;
+            overflow: hidden;
         }
         .carousel-container {
-            width: 80%;
-            max-width: 900px;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
             position: relative;
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            background: white;
-            padding: 20px;
         }
         .carousel {
             display: flex;
             transition: transform 0.5s ease-in-out;
+            cursor: grab;
         }
         .slide {
-            min-width: 100%;
-            text-align: center;
+            min-width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .slide img {
-            width: 100%;
-            border-radius: 10px;
+            width: 300px;
+            height: 600px;
+            border-radius: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
         .dots {
             text-align: center;
-            margin-top: 10px;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
         }
         .dot {
             height: 12px;
@@ -61,9 +66,9 @@
 <body>
     <div class="carousel-container">
         <div class="carousel" id="carousel">
-            <div class="slide"><img src="images/sona3/carts.png" alt="App Screenshot 1"></div>
-            <div class="slide"><img src="https://via.placeholder.com/800x400/ff7f7f" alt="App Screenshot 2"></div>
-            <div class="slide"><img src="https://via.placeholder.com/800x400/77ff77" alt="App Screenshot 3"></div>
+            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+1" alt="App Screenshot 1"></div>
+            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+2" alt="App Screenshot 2"></div>
+            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+3" alt="App Screenshot 3"></div>
         </div>
         <div class="dots" id="dots"></div>
     </div>
@@ -73,7 +78,12 @@
         const dotsContainer = document.getElementById('dots');
         const slides = document.querySelectorAll('.slide');
         let index = 0;
-
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationID;
+        
         slides.forEach((_, i) => {
             let dot = document.createElement('span');
             dot.classList.add('dot');
@@ -87,11 +97,44 @@
         }
 
         function updateCarousel() {
-            carousel.style.transform = `translateX(-${index * 100}%)`;
+            carousel.style.transform = `translateX(-${index * 100}vw)`;
             document.querySelectorAll('.dot').forEach((dot, i) => {
                 dot.classList.toggle('active', i === index);
             });
         }
+
+        function nextSlide() {
+            index = (index + 1) % slides.length;
+            updateCarousel();
+        }
+
+        let interval = setInterval(nextSlide, 5000);
+        
+        carousel.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startPos = e.clientX;
+            cancelAnimationFrame(animationID);
+        });
+
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const currentPos = e.clientX;
+            currentTranslate = prevTranslate + currentPos - startPos;
+            carousel.style.transform = `translateX(${currentTranslate}px)`;
+        });
+
+        carousel.addEventListener('mouseup', () => {
+            isDragging = false;
+            prevTranslate = currentTranslate;
+            if (currentTranslate < -window.innerWidth / 2) {
+                nextSlide();
+            } else if (currentTranslate > window.innerWidth / 2) {
+                index = index > 0 ? index - 1 : slides.length - 1;
+                updateCarousel();
+            } else {
+                updateCarousel();
+            }
+        });
 
         updateCarousel();
     </script>
