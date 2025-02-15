@@ -23,13 +23,9 @@
         .carousel-container {
             width: 100vw;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
             position: relative;
             touch-action: pan-y;
-            padding-bottom: 50px; /* Added space for dots */
         }
         .carousel {
             display: flex;
@@ -52,25 +48,21 @@
         .dots {
             text-align: center;
             position: absolute;
-            bottom: 60px; /* Moved higher to avoid overlap */
+            bottom: 10px;
             width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            border-radius: 10px;
         }
         .dot {
-            height: 12px;
-            width: 12px;
+            height: 10px;
+            width: 10px;
+            margin: 5px;
             background-color: #bbb;
             border-radius: 50%;
+            display: inline-block;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         .active {
-            background-color: #fff;
+            background-color: #555;
         }
         .store-buttons {
             position: absolute;
@@ -100,9 +92,6 @@
                 flex-direction: column;
                 align-items: center;
             }
-            .dots {
-                bottom: 40px; /* Adjusted for mobile */
-            }
         }
     </style>
 </head>
@@ -112,6 +101,7 @@
             <div class="slide"><img src="images/sona3/mainrest.png" alt="App Screenshot 3"></div>
             <div class="slide"><img src="images/sona3/restlist.png" alt="App Screenshot 1"></div>
             <div class="slide"><img src="images/sona3/mealdetail1.png" alt="App Screenshot 2"></div>
+          
             <div class="slide"><img src="images/sona3/fav.png" alt="App Screenshot 4"></div>
             <div class="slide"><img src="images/sona3/profilesona3.png" alt="App Screenshot 5"></div>
         </div>
@@ -127,6 +117,9 @@
         const dotsContainer = document.getElementById('dots');
         const slides = document.querySelectorAll('.slide');
         let index = 0;
+        let startX = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
 
         slides.forEach((_, i) => {
             let dot = document.createElement('span');
@@ -153,6 +146,21 @@
         }
 
         let interval = setInterval(nextSlide, 5000);
+
+        // Touch support
+        carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        carousel.addEventListener('touchmove', (e) => {
+            let diff = e.touches[0].clientX - startX;
+            if (diff > 50) {
+                index = index > 0 ? index - 1 : slides.length - 1;
+                updateCarousel();
+            } else if (diff < -50) {
+                nextSlide();
+            }
+        });
 
         updateCarousel();
     </script>
