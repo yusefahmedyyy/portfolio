@@ -11,14 +11,6 @@
             padding: 0;
             user-select: none;
         }
-        html, body {
-    height: 100%;
-    overflow: hidden;
-}
-.carousel-container {
-    height: 100vh; /* Ensure full height */
-}
-
         body {
             display: flex;
             justify-content: center;
@@ -33,6 +25,7 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
+            touch-action: pan-y;
         }
         .carousel {
             display: flex;
@@ -46,20 +39,21 @@
             align-items: center;
         }
         .slide img {
-            width: 300px;
-            height: 600px;
+            width: 90%;
+            max-width: 300px;
+            height: auto;
             border-radius: 20px;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
         .dots {
             text-align: center;
             position: absolute;
-            bottom: 20px;
+            bottom: 10px;
             width: 100%;
         }
         .dot {
-            height: 12px;
-            width: 12px;
+            height: 10px;
+            width: 10px;
             margin: 5px;
             background-color: #bbb;
             border-radius: 50%;
@@ -72,26 +66,32 @@
         }
         .store-buttons {
             position: absolute;
-            top: 50%;
+            bottom: 15px;
             width: 100%;
             display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            transform: translateY(-50%);
+            justify-content: center;
+            gap: 10px;
         }
         .store-buttons a {
             display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 8px 16px;
+            font-size: 14px;
             color: white;
             text-decoration: none;
             border-radius: 5px;
         }
-        .app-store {
-            background-color: #000;
-        }
         .play-store {
             background-color: #34a853;
+        }
+
+        @media (max-width: 768px) {
+            .slide img {
+                max-width: 250px;
+            }
+            .store-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -101,28 +101,25 @@
             <div class="slide"><img src="images/sona3/restlist.png" alt="App Screenshot 1"></div>
             <div class="slide"><img src="images/sona3/mealdetail1.png" alt="App Screenshot 2"></div>
             <div class="slide"><img src="images/sona3/mainrest.png" alt="App Screenshot 3"></div>
-            <div class="slide"><img src="images/sona3/fav.png" alt="App Screenshot 3"></div>
-            <div class="slide"><img src="images/sona3/profilesona3.png" alt="App Screenshot 3"></div>
+            <div class="slide"><img src="images/sona3/fav.png" alt="App Screenshot 4"></div>
+            <div class="slide"><img src="images/sona3/profilesona3.png" alt="App Screenshot 5"></div>
         </div>
         <div class="dots" id="dots"></div>
     </div>
-    
+
     <div class="store-buttons">
-        <!-- <a href="#" class="app-store">Download on the App Store</a> -->
         <a href="https://play.google.com/store/apps/details?id=com.sona3.app&hl=en" class="play-store">Get it on Google Play</a>
     </div>
-    
+
     <script>
         const carousel = document.getElementById('carousel');
         const dotsContainer = document.getElementById('dots');
         const slides = document.querySelectorAll('.slide');
         let index = 0;
-        let isDragging = false;
-        let startPos = 0;
+        let startX = 0;
         let currentTranslate = 0;
         let prevTranslate = 0;
-        let animationID;
-        
+
         slides.forEach((_, i) => {
             let dot = document.createElement('span');
             dot.classList.add('dot');
@@ -148,30 +145,19 @@
         }
 
         let interval = setInterval(nextSlide, 5000);
-        
-        carousel.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startPos = e.clientX;
-            cancelAnimationFrame(animationID);
+
+        // Touch support
+        carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
         });
 
-        carousel.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const currentPos = e.clientX;
-            currentTranslate = prevTranslate + currentPos - startPos;
-            carousel.style.transform = `translateX(${currentTranslate}px)`;
-        });
-
-        carousel.addEventListener('mouseup', () => {
-            isDragging = false;
-            prevTranslate = currentTranslate;
-            if (currentTranslate < -window.innerWidth / 2) {
-                nextSlide();
-            } else if (currentTranslate > window.innerWidth / 2) {
+        carousel.addEventListener('touchmove', (e) => {
+            let diff = e.touches[0].clientX - startX;
+            if (diff > 50) {
                 index = index > 0 ? index - 1 : slides.length - 1;
                 updateCarousel();
-            } else {
-                updateCarousel();
+            } else if (diff < -50) {
+                nextSlide();
             }
         });
 
