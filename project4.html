@@ -63,9 +63,13 @@
             background-color: #555;
         }
         .store-buttons {
-            margin-top: 40px;
+            position: absolute;
+            top: 50%;
+            width: 100%;
             display: flex;
-            gap: 15px;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
         }
         .store-buttons a {
             display: inline-block;
@@ -86,9 +90,9 @@
 <body>
     <div class="carousel-container">
         <div class="carousel" id="carousel">
-            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+1" alt="App Screenshot 1"></div>
-            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+2" alt="App Screenshot 2"></div>
-            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+3" alt="App Screenshot 3"></div>
+            <div class="slide"><img src="images/sona3/home.png" alt="App Screenshot 1"></div>
+            <div class="slide"><img src="images/sona3/meal_details.png" alt="App Screenshot 2"></div>
+            <div class="slide"><img src="images/sona3/carts.png" alt="App Screenshot 3"></div>
         </div>
         <div class="dots" id="dots"></div>
     </div>
