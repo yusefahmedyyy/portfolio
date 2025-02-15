@@ -17,12 +17,12 @@
             align-items: center;
             flex-direction: column;
             height: 100vh;
-            background-color: #f4f4f4;
+            background: url('background-image.jpg') no-repeat center center/cover;
             overflow: hidden;
         }
         .carousel-container {
             width: 100vw;
-            height: 80vh;
+            height: 70vh;
             overflow: hidden;
             position: relative;
         }
@@ -63,12 +63,12 @@
             background-color: #555;
         }
         .store-buttons {
-            margin-top: 2px;
+            margin-top: 40px;
             display: flex;
-            gap: 5px;
+            gap: 15px;
         }
         .store-buttons a {
-            display:contents;
+            display: inline-block;
             padding: 10px 20px;
             font-size: 16px;
             color: white;
@@ -86,16 +86,16 @@
 <body>
     <div class="carousel-container">
         <div class="carousel" id="carousel">
-            <div class="slide"><img src="images/sona3/carts.png" alt="App Screenshot 1"></div>
-            <div class="slide"><img src="images/sona3/meal_details.png" alt="App Screenshot 2"></div>
-            <div class="slide"><img src="images/sona3/mainrest.png" alt="App Screenshot 3"></div>
+            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+1" alt="App Screenshot 1"></div>
+            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+2" alt="App Screenshot 2"></div>
+            <div class="slide"><img src="https://via.placeholder.com/300x600?text=iPhone+Mockup+3" alt="App Screenshot 3"></div>
         </div>
         <div class="dots" id="dots"></div>
     </div>
     
     <div class="store-buttons">
-        <!-- <a href="en" class="app-store">Download on the App Store</a> -->
-        <a href="https://play.google.com/store/apps/details?id=com.sona3.app&hl=en" class="play-store">Get it on Google Play</a>
+        <a href="#" class="app-store">Download on the App Store</a>
+        <a href="#" class="play-store">Get it on Google Play</a>
     </div>
     
     <script>
