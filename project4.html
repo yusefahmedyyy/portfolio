@@ -39,7 +39,7 @@
             align-items: center;
         }
         .slide img {
-            width: 90%;
+            width: 50%;
             max-width: 300px;
             height: auto;
             border-radius: 20px;
@@ -70,7 +70,7 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 100px;
         }
         .store-buttons a {
             display: inline-block;
@@ -95,27 +95,66 @@
                 align-items: center;
             }
         }
+
+        .slide-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .slide-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+            max-width: 50%;
+        }
     </style>
 </head>
 <body>
     <div class="carousel-container">
         <div class="carousel" id="carousel">
-            <div class="slide"><img src="images/sona3/mainrest.png" alt="App Screenshot 3"></div>
-            <div class="slide"><img src="images/sona3/restlist.png" alt="App Screenshot 1"></div>
-            <div class="slide"><img src="images/sona3/mealdetail1.png" alt="App Screenshot 2"></div>
-          
-            <div class="slide"><img src="images/sona3/fav.png" alt="App Screenshot 4"></div>
-            <div class="slide"><img src="images/sona3/profilesona3.png" alt="App Screenshot 5"></div>
+            <div class="slide">
+                <div class="slide-content">
+                    <img src="images/sona3/mainrest.png" alt="App Screenshot 3">
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <img src="images/sona3/restlist.png" alt="App Screenshot 1">
+                    <p class="slide-text">Browse through a list of restaurants effortlessly.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <img src="images/sona3/mealdetail1.png" alt="App Screenshot 2">
+                    <p class="slide-text">View detailed meal information at a glance.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <img src="images/sona3/fav.png" alt="App Screenshot 4">
+                    <p class="slide-text">Save your favorite meals for quick access.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <img src="images/sona3/profilesona3.png" alt="App Screenshot 5">
+                    <p class="slide-text">Manage your profile and preferences easily.</p>
+                </div>
+            </div>
         </div>
         <div class="dots" id="dots"></div>
     </div>
 
-    <div class="store-buttons">
-        <a href="https://play.google.com/store/apps/details?id=com.sona3.app&hl=en" class="play-store">Get it on Google Play</a>
-    </div> 
-    <div class="store-buttons">
-        <a href="https://apps.apple.com/eg/app/sona3/id6741589122" class="app-store">Get it on AppStore</a>
-    </div>
+   <div class="store-buttons">
+    <a href="https://play.google.com/store/apps/details?id=com.sona3.app&hl=en" class="play-store">Get it on Google Play</a>
+    <a href="https://apps.apple.com/eg/app/sona3/id6741589122" class="app-store">Get it on AppStore</a>
+</div>
+
 
     <script>
         const carousel = document.getElementById('carousel');
