@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Carousel with Fixed Height</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents the page from scrolling */
+            height: 100vh; /* Ensure the body takes up full height without scrolling */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('images/webback.jpg'); /* Add your background image here */
+            background-size: cover; /* Ensure the background covers the whole page */
+            background-position: center; /* Center the background image */
+            background-repeat: repeat; /* Prevent repeating the background image */
+        }
+
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(234, 37, 37, 0.064); /* Optional: Add a semi-transparent background to the carousel container */
+            border-radius: 10px; /* Optional: Add rounded corners */
+            padding: 20px; /* Optional: Add some padding */
+            box-sizing: border-box;
+            flex-direction: row;
+            height: 100%; /* Fixes height to prevent page movement */
+        }
+
+        .description {
+            width: 45%;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 100px;
+            text-align: center;
+    
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
+
+        .description.left {
+            text-align: right;
+        }
+
+        .description.right {
+            text-align: left;
+        }
+
+        .carousel-wrapper {
+            width: 100%;
+            max-width: 500px;
+            height: 100%; /* Ensures the carousel maintains a fixed height */
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slide img,
+        .slide video {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            position: fixed;
+            display: flex;
+            border-radius: 25px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide .prev,
+        .slide .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50%;
+            z-index: 2;
+            font-size: 20px;
+            line-height: 1;
+            width: 40px;
+            height: 40px;
+        }
+
+        .slide .prev {
+            left: 10px;
+        }
+
+        .slide .next {
+            right: 10px;
+        }
+
+        .fullscreen-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+
+        .fullscreen-img img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .fullscreen-img.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @media (max-width: 768px) {
+            .carousel-container {
+                flex-direction: column;
+            }
+
+            .description {
+                width: 100%;
+                margin-bottom: 10px;
+                padding: 10px;
+            }
+
+            .carousel-wrapper {
+                width: 100%;
+                height: auto;
+                max-width: none;
+            }
+
+            .slide {
+                height: 650px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-wrapper {
+                height: 500px;
+            }
+
+            .slide {
+                height: 500px;
+            }
+
+            .slide .prev,
+            .slide .next {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel-container">
+        <div class="description left">
+            <p>This is the left description.</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="carousel">
+               
+                <div class="slide" data-left-description="L00CS – Egypt’s Local Fashion Hub" data-right-description="L00CS is a multi-vendor mobile platform designed to bring Egypt’s top local fashion brands into one sleek, easy-to-use app. Customers can browse and order products from multiple brands in a single checkout, while L00CS handles warehousing, delivery, and customer service.
+
+Key features:
+
+Multi-brand shopping cart with seamless checkout
+
+Real-time inventory updates and order tracking
+
+Firebase integration for authentication and database management
+
+Brand onboarding, stock management, and performance insights
+
+Built-in notification system for sellers and delivery agents
+
+Designed with scalability and user experience in mind, L00CS empowers local businesses and simplifies fashion shopping for modern Egyptian consumers.
+
+">
+                    <img src="images/looks/IMG_0867.PNG" alt="Photo 1">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                    <img src="images/looks/IMG_0868.PNG" alt="Photo 4">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                   <div class="slide" data-left-description="" data-right-description="">
+                    <img src="images/looks/IMG_0869.PNG" alt="Photo 4">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                    <img src="images/looks/IMG_0870.PNG" alt="Photo 4">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                    <img src="images/looks/IMG_0871.PNG" alt="Photo 4">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                    <img src="images/looks/IMG_0872.PNG" alt="Photo 4">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                    <img src="images/looks/IMG_0873.PNG" alt="Photo 4">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+                <div class="slide" data-left-description="" data-right-description="">
+                    <img src="images/looks/IMG_0874.PNG" alt="Photo 4">
+                    <button class="prev">&lt;</button>
+                    <button class="next">&gt;</button>
+                </div>
+               
+             
+            </div>
+        </div>
+
+        <div class="description right">
+            <p>This is the right description.</p>
+        </div>
+    </div>
+
+    <div class="fullscreen-img">
+        <span class="close-fullscreen">&times;</span>
+        <img src="" alt="Fullscreen Image">
+    </div>
+
+    <script>
+        const carousel = document.querySelector('.carousel');
+        const slides = document.querySelectorAll('.slide');
+        const fullscreenImg = document.querySelector('.fullscreen-img');
+        const fullscreenImgTag = fullscreenImg.querySelector('img');
+        const closeFullscreen = document.querySelector('.close-fullscreen');
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            carousel.style.transform = `translateX(-${index * 100}%)`;
+            updateDescriptions(index);
+        }
+
+        function updateDescriptions(index) {
+            const leftDesc = document.querySelector('.description.left p');
+            const rightDesc = document.querySelector('.description.right p');
+            const slide = slides[index];
+            leftDesc.textContent = slide.dataset.leftDescription;
+            rightDesc.textContent = slide.dataset.rightDescription;
+        }
+
+        function showPrevSlide() {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+            showSlide(currentIndex);
+        }
+
+        function showNextSlide() {
+            currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+            showSlide(currentIndex);
+        }
+
+        slides.forEach((slide, index) => {
+            const prevButton = slide.querySelector('.prev');
+            const nextButton = slide.querySelector('.next');
+
+            prevButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                event.preventDefault(); // Prevent default scrolling
+                showPrevSlide();
+            });
+
+            nextButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                event.preventDefault(); // Prevent default scrolling
+                showNextSlide();
+            });
+
+            slide.addEventListener('click', function () {
+                const imgSrc = this.querySelector('img').src;
+                fullscreenImgTag.src = imgSrc;
+                fullscreenImg.classList.add('visible');
+            });
+        });
+
+        closeFullscreen.addEventListener('click', () => {
+            fullscreenImg.classList.remove('visible');
+        });
+
+        // Show the first slide and descriptions initially
+        showSlide(currentIndex);
+    </script>
+    <footer style="position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 24px; color: white; ">
+    <!-- <a href="https://x-care-lemon.vercel.app/Home" style="color: white; margin: 0 15px; text-decoration: underline;">Website</a> -->
+    <!-- <a href="https://example.com/about" style="color: white; margin: 0 15px; text-decoration: none;">About</a>
+    <a href="https://example.com/contact" style="color: white; margin: 0 15px; text-decoration: none;">Contact</a> -->
+</footer>
+
+</body>
+
+</html>
