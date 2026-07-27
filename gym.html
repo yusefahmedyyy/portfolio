@@ -2,365 +2,649 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Carousel with Fixed Height</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Prevents the page from scrolling */
-            height: 100vh; /* Ensure the body takes up full height without scrolling */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('images/webback.jpg'); /* Add your background image here */
-            background-size: cover; /* Ensure the background covers the whole page */
-            background-position: center; /* Center the background image */
-            background-repeat: repeat; /* Prevent repeating the background image */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YourGym — App Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
 
-        .carousel-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            background: rgba(234, 37, 37, 0.064); /* Optional: Add a semi-transparent background to the carousel container */
-            border-radius: 10px; /* Optional: Add rounded corners */
-            padding: 20px; /* Optional: Add some padding */
-            box-sizing: border-box;
-            flex-direction: row;
-            height: 100%; /* Fixes height to prevent page movement */
-        }
+:root{
+  --bg: #0c0d0f;
+  --bg-soft: #141519;
+  --panel: #17181d;
+  --line: #26282f;
+  --text: #f3f3f0;
+  --muted: #8a8d97;
+  --volt: #d7ff3f;
+  --gold: #e0b23c;
+  --radius: 22px;
+}
 
-        .description {
-            width: 45%;
-            padding: 30px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            border-radius: 100px;
-            text-align: center;
-    
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-        }
+*{ box-sizing: border-box; }
 
-        .description.left {
-            text-align: right;
-        }
+html, body{
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
 
-        .description.right {
-            text-align: left;
-        }
+body{
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(215,255,63,0.08), transparent 40%),
+    radial-gradient(circle at 88% 85%, rgba(224,178,60,0.10), transparent 45%),
+    var(--bg);
+}
 
-        .carousel-wrapper {
-            width: 100%;
-            max-width: 500px;
-            height: 100%; /* Ensures the carousel maintains a fixed height */
-            overflow: hidden;
-            position: relative;
-            flex-shrink: 0;
-        }
+.wrap{
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 40px 28px 60px;
+}
 
-        .carousel {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-        }
+/* ---------- Brand bar ---------- */
+.brandbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 48px;
+}
 
-        .slide {
-            min-width: 100%;
-            height: 100%;
-            position: relative;
-            cursor: pointer;
-        }
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-        .slide img,
-        .slide video {
-            width: 90%;
-            height: 90%;
-            object-fit: contain;
-            position: fixed;
-            display: flex;
-            border-radius: 25px;
-            justify-content: center;
-            align-items: center;
-        }
+.brand-mark{
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, var(--gold), #8a6a14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 15px;
+  color: #0c0d0f;
+  flex-shrink: 0;
+}
 
-        .slide .prev,
-        .slide .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 50%;
-            z-index: 2;
-            font-size: 20px;
-            line-height: 1;
-            width: 40px;
-            height: 40px;
-        }
+.brand-name{
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+}
 
-        .slide .prev {
-            left: 10px;
-        }
+.brand-tag{
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
 
-        .slide .next {
-            right: 10px;
-        }
+.status-chip{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--volt);
+  border: 1px solid rgba(215,255,63,0.35);
+  background: rgba(215,255,63,0.06);
+  padding: 8px 14px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-        .fullscreen-img {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-        }
+.status-dot{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--volt);
+  box-shadow: 0 0 8px var(--volt);
+}
 
-        .fullscreen-img img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-        }
+/* ---------- Hero copy ---------- */
+.hero{
+  margin-bottom: 44px;
+  max-width: 720px;
+}
 
-        .fullscreen-img.visible {
-            visibility: visible;
-            opacity: 1;
-        }
+.hero h1{
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.02;
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+}
 
-        .close-fullscreen {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            z-index: 1001;
-        }
+.hero h1 span{ color: var(--volt); }
 
-        @media (max-width: 768px) {
-            .carousel-container {
-                flex-direction: column;
-            }
+.hero p{
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0;
+}
 
-            .description {
-                width: 100%;
-                margin-bottom: 10px;
-                padding: 10px;
-            }
+/* ---------- Main layout ---------- */
+.stage{
+  display: grid;
+  grid-template-columns: 300px minmax(280px, 380px) 1fr;
+  gap: 28px;
+  align-items: start;
+}
 
-            .carousel-wrapper {
-                width: 100%;
-                height: auto;
-                max-width: none;
-            }
+@media (max-width: 980px){
+  .stage{ grid-template-columns: 1fr; }
+}
 
-            .slide {
-                height: 650px;
-            }
-        }
+/* ---------- Feature list ---------- */
+.features{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-        @media (max-width: 480px) {
-            .carousel-wrapper {
-                height: 500px;
-            }
+.features h2, .stack h2{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
 
-            .slide {
-                height: 500px;
-            }
+.feature{
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  padding: 14px 6px;
+  border-bottom: 1px solid var(--line);
+}
 
-            .slide .prev,
-            .slide .next {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
-            }
-        }
-    </style>
+.feature:last-child{ border-bottom: none; }
+
+.feature .num{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--gold);
+  padding-top: 2px;
+}
+
+.feature h3{
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.feature p{
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* ---------- Phone / carousel ---------- */
+.stack{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-shell{
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.phone-frame{
+  position: relative;
+  border-radius: 42px;
+  padding: 12px;
+  background: linear-gradient(160deg, #2a2c33, #101115);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 30px 60px -20px rgba(0,0,0,0.7);
+}
+
+.phone-notch{
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 84px;
+  height: 20px;
+  background: #101115;
+  border-radius: 0 0 14px 14px;
+  z-index: 3;
+}
+
+.carousel-wrapper{
+  width: 100%;
+  aspect-ratio: 9 / 19.5;
+  overflow: hidden;
+  position: relative;
+  border-radius: 32px;
+  background: #000;
+}
+
+.carousel-track{
+  display: flex;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(.65,0,.35,1);
+}
+
+.slide{
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  cursor: zoom-in;
+}
+
+.slide img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nav-btn{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(12,13,15,0.55);
+  backdrop-filter: blur(6px);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover{ background: rgba(215,255,63,0.85); color: #0c0d0f; }
+.nav-btn.prev{ left: 8px; }
+.nav-btn.next{ right: 8px; }
+
+.dots{
+  display: flex;
+  gap: 6px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 260px;
+}
+
+.dot{
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--line);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.dot.active{
+  background: var(--volt);
+  width: 20px;
+}
+
+.slide-counter{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+  letter-spacing: 0.06em;
+}
+
+.slide-counter b{ color: var(--text); }
+
+/* ---------- Info / about panel ---------- */
+.about{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about h2{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+
+.about-card{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.about-card p{
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #cfd0d5;
+}
+
+.stat-row{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stat{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.stat .val{
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 20px;
+  color: var(--volt);
+}
+
+.stat .lab{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+@media (max-width: 980px){
+  .about{ order: 3; }
+  .stack{ order: 1; }
+  .features{ order: 2; }
+}
+
+/* ---------- Fullscreen lightbox ---------- */
+.fullscreen-img{
+  position: fixed;
+  inset: 0;
+  background: rgba(6,6,8,0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 30px;
+}
+
+.fullscreen-img.visible{ visibility: visible; opacity: 1; }
+
+.fullscreen-img img{
+  max-width: min(90vw, 420px);
+  max-height: 88vh;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.close-fullscreen{
+  position: absolute;
+  top: 22px;
+  right: 26px;
+  color: var(--text);
+  font-size: 30px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+footer{
+  text-align: center;
+  margin-top: 60px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+</style>
 </head>
 
 <body>
-    <div class="carousel-container">
-        <div class="description left">
-            <p>This is the left description.</p>
+
+<div class="wrap">
+
+  <div class="brandbar">
+    <div class="brand">
+      <div class="brand-mark">GY</div>
+      <div>
+        <div class="brand-name">YourGym</div>
+        <span class="brand-tag">Fitness, on your terms</span>
+      </div>
+    </div>
+    <div class="status-chip"><span class="status-dot"></span>In development</div>
+  </div>
+
+  <div class="hero">
+    <h1>Train anywhere.<br>No gym <span>required</span>.</h1>
+    <p>YourGym is a mobile workout app built for flexibility and user autonomy. Create custom routines matched to your goals, fitness level, and whatever equipment you have on hand, then take them offline and train wherever you are.</p>
+  </div>
+
+  <div class="stage">
+
+    <div class="features">
+      <h2>Core Features</h2>
+
+      <div class="feature">
+        <span class="num">01</span>
+        <div>
+          <h3>Custom Workout Plans</h3>
+          <p>Build routines from an exercise library sorted by muscle group, difficulty, and duration.</p>
         </div>
+      </div>
 
-        <div class="carousel-wrapper">
-            <div class="carousel">
-               
-                <div class="slide" data-left-description="YourGym is a mobile workout application designed to deliver a complete fitness experience without the need for a gym. Built with flexibility and user autonomy in mind, YourGym allows users to create and follow custom workout plans tailored to their goals, fitness level, and available equipment." data-right-description="Core Features:
-Custom Workout Plans
-Users can build routines by selecting from a library of exercises categorized by muscle group, difficulty, and duration.
+      <div class="feature">
+        <span class="num">02</span>
+        <div>
+          <h3>Video Guidance</h3>
+          <p>Every exercise includes clear instructions and video demos to keep your form correct and safe.</p>
+        </div>
+      </div>
 
-Video Guidance
-Each exercise includes detailed instructions and video demonstrations to ensure proper form and reduce injury risk.
+      <div class="feature">
+        <span class="num">03</span>
+        <div>
+          <h3>Progress Tracking</h3>
+          <p>Logs every workout, tracks personal bests, and visualizes progress through simple charts.</p>
+        </div>
+      </div>
 
-Progress Tracking
-The app logs completed workouts, tracks personal bests, and visualizes progress over time through intuitive charts and stats.
+      <div class="feature">
+        <span class="num">04</span>
+        <div>
+          <h3>Offline Mode</h3>
+          <p>Plans and videos stay available with no connection, so you can train anywhere, anytime.</p>
+        </div>
+      </div>
 
-Offline Mode
-All plans and videos are accessible offline, making it easy to train anywhere, anytime.
+      <div class="feature">
+        <span class="num">05</span>
+        <div>
+          <h3>Adaptive Workouts</h3>
+          <p>Suggests changes in difficulty based on your feedback and workout history.</p>
+        </div>
+      </div>
 
-Adaptive Workouts
-Based on user feedback and workout history, YourGym intelligently suggests changes or increases in difficulty.
+      <div class="feature">
+        <span class="num">06</span>
+        <div>
+          <h3>Minimalist Design</h3>
+          <p>A clean interface built for quick access and distraction free training sessions.</p>
+        </div>
+      </div>
+    </div>
 
-Minimalist, User-First Design
-Clean interface optimized for quick access and distraction-free training sessions.
-
-YourGym is currently under development, with a strong focus on performance, usability, and scalability. It’s being built for both Android and iOS, using Flutter for cross-platform efficiency.">
-                    <img src="images/gym/b_accounts.png" alt="Photo 1">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/a_home.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                   <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/create_plan.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/create_yoga_plan_ready.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/d_register.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/a_settings.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/bookmark_search.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/c_login.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/c_notifications.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-              
-               <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/ca_profile_privacy.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/gym/chest_list.png" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-             
+    <div class="stack">
+      <div class="phone-shell">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+              <div class="slide"><img src="images/gym/b_accounts.png" alt="Account screen"></div>
+              <div class="slide"><img src="images/gym/a_home.png" alt="Home screen"></div>
+              <div class="slide"><img src="images/gym/create_plan.png" alt="Create plan screen"></div>
+              <div class="slide"><img src="images/gym/create_yoga_plan_ready.png" alt="Yoga plan ready screen"></div>
+              <div class="slide"><img src="images/gym/d_register.png" alt="Register screen"></div>
+              <div class="slide"><img src="images/gym/a_settings.png" alt="Settings screen"></div>
+              <div class="slide"><img src="images/gym/bookmark_search.png" alt="Bookmark search screen"></div>
+              <div class="slide"><img src="images/gym/c_login.png" alt="Login screen"></div>
+              <div class="slide"><img src="images/gym/c_notifications.png" alt="Notifications screen"></div>
+              <div class="slide"><img src="images/gym/ca_profile_privacy.png" alt="Profile privacy screen"></div>
+              <div class="slide"><img src="images/gym/chest_list.png" alt="Chest exercise list screen"></div>
             </div>
+            <button class="nav-btn prev" aria-label="Previous screen">&lt;</button>
+            <button class="nav-btn next" aria-label="Next screen">&gt;</button>
+          </div>
         </div>
+      </div>
 
-        <div class="description right">
-            <p>This is the right description.</p>
-        </div>
+      <div class="dots" id="dots"></div>
+      <div class="slide-counter"><b id="slideCurrent">01</b> / <span id="slideTotal">11</span></div>
     </div>
 
-    <div class="fullscreen-img">
-        <span class="close-fullscreen">&times;</span>
-        <img src="" alt="Fullscreen Image">
+    <div class="about">
+      <h2>About the build</h2>
+      <div class="about-card">
+        <p>YourGym is being built for both Android and iOS using Flutter, with a strong focus on performance, usability, and scalability as it heads toward release.</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="val">2</div>
+          <div class="lab">Platforms</div>
+        </div>
+        <div class="stat">
+          <div class="val">6</div>
+          <div class="lab">Core features</div>
+        </div>
+        <div class="stat">
+          <div class="val">FL</div>
+          <div class="lab">Flutter built</div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        const carousel = document.querySelector('.carousel');
-        const slides = document.querySelectorAll('.slide');
-        const fullscreenImg = document.querySelector('.fullscreen-img');
-        const fullscreenImgTag = fullscreenImg.querySelector('img');
-        const closeFullscreen = document.querySelector('.close-fullscreen');
-        let currentIndex = 0;
+  </div>
 
-        function showSlide(index) {
-            carousel.style.transform = `translateX(-${index * 100}%)`;
-            updateDescriptions(index);
-        }
+  <footer>YourGym &middot; Portfolio Showcase</footer>
 
-        function updateDescriptions(index) {
-            const leftDesc = document.querySelector('.description.left p');
-            const rightDesc = document.querySelector('.description.right p');
-            const slide = slides[index];
-            leftDesc.textContent = slide.dataset.leftDescription;
-            rightDesc.textContent = slide.dataset.rightDescription;
-        }
+</div>
 
-        function showPrevSlide() {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
-            showSlide(currentIndex);
-        }
+<div class="fullscreen-img" id="fullscreenImg">
+  <span class="close-fullscreen" id="closeFullscreen">&times;</span>
+  <img src="" alt="Full size screenshot">
+</div>
 
-        function showNextSlide() {
-            currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
-            showSlide(currentIndex);
-        }
+<script>
+  const track = document.getElementById('carouselTrack');
+  const slides = Array.from(track.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const slideCurrent = document.getElementById('slideCurrent');
+  const slideTotal = document.getElementById('slideTotal');
+  const fullscreenImg = document.getElementById('fullscreenImg');
+  const fullscreenImgTag = fullscreenImg.querySelector('img');
+  const closeFullscreen = document.getElementById('closeFullscreen');
 
-        slides.forEach((slide, index) => {
-            const prevButton = slide.querySelector('.prev');
-            const nextButton = slide.querySelector('.next');
+  let currentIndex = 0;
 
-            prevButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                event.preventDefault(); // Prevent default scrolling
-                showPrevSlide();
-            });
+  slideTotal.textContent = String(slides.length).padStart(2, '0');
 
-            nextButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                event.preventDefault(); // Prevent default scrolling
-                showNextSlide();
-            });
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', 'Go to screen ' + (i + 1));
+    dot.addEventListener('click', () => showSlide(i));
+    dotsWrap.appendChild(dot);
+  });
 
-            slide.addEventListener('click', function () {
-                const imgSrc = this.querySelector('img').src;
-                fullscreenImgTag.src = imgSrc;
-                fullscreenImg.classList.add('visible');
-            });
-        });
+  const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
 
-        closeFullscreen.addEventListener('click', () => {
-            fullscreenImg.classList.remove('visible');
-        });
+  function showSlide(index){
+    currentIndex = (index + slides.length) % slides.length;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+    slideCurrent.textContent = String(currentIndex + 1).padStart(2, '0');
+  }
 
-        // Show the first slide and descriptions initially
-        showSlide(currentIndex);
-    </script>
-    <footer style="position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 24px; color: white; ">
-    <!-- <a href="https://x-care-lemon.vercel.app/Home" style="color: white; margin: 0 15px; text-decoration: underline;">Website</a> -->
-    <!-- <a href="https://example.com/about" style="color: white; margin: 0 15px; text-decoration: none;">About</a>
-    <a href="https://example.com/contact" style="color: white; margin: 0 15px; text-decoration: none;">Contact</a> -->
-</footer>
+  document.querySelector('.nav-btn.prev').addEventListener('click', (e) => {
+    e.stopPropagation();
+    showSlide(currentIndex - 1);
+  });
+
+  document.querySelector('.nav-btn.next').addEventListener('click', (e) => {
+    e.stopPropagation();
+    showSlide(currentIndex + 1);
+  });
+
+  slides.forEach((slide) => {
+    slide.addEventListener('click', function(){
+      const imgSrc = this.querySelector('img').src;
+      fullscreenImgTag.src = imgSrc;
+      fullscreenImg.classList.add('visible');
+    });
+  });
+
+  closeFullscreen.addEventListener('click', () => {
+    fullscreenImg.classList.remove('visible');
+  });
+
+  fullscreenImg.addEventListener('click', (e) => {
+    if (e.target === fullscreenImg) fullscreenImg.classList.remove('visible');
+  });
+
+  // Swipe support for touch devices
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40){
+      diff > 0 ? showSlide(currentIndex + 1) : showSlide(currentIndex - 1);
+    }
+  }, { passive: true });
+
+  // Keyboard support
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') showSlide(currentIndex - 1);
+    if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
+    if (e.key === 'Escape') fullscreenImg.classList.remove('visible');
+  });
+
+  showSlide(0);
+</script>
 
 </body>
-
 </html>
