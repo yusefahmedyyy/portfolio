@@ -295,6 +295,23 @@ svg{
   fill: var(--first-color);
   filter: drop-shadow(0 12px 12px hsla(var(--hue), 100% , 40%, .2));
 }
+.home__buttons{
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.button--ghost{
+    background: transparent;
+    border: 2px solid var(--first-color);
+    color: var(--first-color);
+}
+
+.button--ghost:hover{
+    background: var(--first-color);
+    color: #fff;
+}
 /* end home */
 
 /* start button */
