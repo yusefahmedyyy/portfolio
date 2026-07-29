@@ -131,6 +131,23 @@ svg{
 .main {
   overflow: hidden;
 }
+.home__buttons{
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.button--ghost{
+    background: transparent;
+    border: 2px solid var(--first-color);
+    color: var(--first-color);
+}
+
+.button--ghost:hover{
+    background: var(--first-color);
+    color: #fff;
+}
 /* end golbal rules */
 
 /* header  */
