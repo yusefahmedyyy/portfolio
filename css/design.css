@@ -743,7 +743,7 @@ svg{
     margin: 0;
     justify-self: flex-end;
   }
-}
+
 .home__buttons{
     display: flex;
     gap: 1rem;
@@ -760,4 +760,4 @@ svg{
 .button--ghost:hover{
     background: var(--first-color);
     color: #fff;
-}
+} }
