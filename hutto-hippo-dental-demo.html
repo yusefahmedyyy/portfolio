@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hutto Hippo Family Dental — App &amp; Dashboard Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF6EE;
+    --paper:#FFFFFF;
+    --pine:#1F3D34;
+    --pine-light:#2E5A4C;
+    --coral:#E8664F;
+    --coral-light:#F2917E;
+    --coral-wash:#FCEAE6;
+    --sage:#C9D9C2;
+    --sage-wash:#EEF3EA;
+    --ink:#23211D;
+    --ink-soft:#6B6558;
+    --line:rgba(31,61,52,0.13);
+    --shadow: 0 20px 50px -25px rgba(31,61,52,0.35);
+    --display: 'Fraunces', serif;
+    --body: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, var(--sage-wash) 0%, transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, var(--coral-wash) 0%, transparent 55%),
+      var(--cream);
+    font-family:var(--body);
+    color:var(--ink);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  /* ---------- top chrome ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:22px clamp(18px,4vw,48px) 10px;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{width:40px;height:40px;flex-shrink:0;}
+  .brand-text{line-height:1.1;}
+  .brand-text .name{font-family:var(--display);font-weight:600;font-size:19px;color:var(--pine);letter-spacing:0.01em;}
+  .brand-text .tag{font-size:11.5px;color:var(--ink-soft);letter-spacing:0.06em;text-transform:uppercase;}
+
+  .demo-pill{
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    background:var(--pine);
+    color:var(--cream);
+    padding:6px 12px;
+    border-radius:100px;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-weight:600;
+  }
+  .demo-pill::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--coral-light);
+    box-shadow:0 0 0 3px rgba(232,102,79,0.25);
+  }
+
+  .switcher{
+    display:flex;
+    gap:4px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:4px;
+    border-radius:100px;
+    box-shadow:0 8px 20px -14px rgba(31,61,52,0.25);
+  }
+  .switcher button{
+    border:none;
+    background:transparent;
+    font-family:var(--body);
+    font-weight:600;
+    font-size:13.5px;
+    padding:9px 18px;
+    border-radius:100px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:background .25s ease, color .25s ease;
+  }
+  .switcher button.active{
+    background:var(--pine);
+    color:var(--cream);
+  }
+
+  .subhead{
+    padding:6px clamp(18px,4vw,48px) 8px;
+    max-width:640px;
+  }
+  .subhead h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(24px,3vw,32px);
+    margin:6px 0 6px;
+    color:var(--pine);
+  }
+  .subhead p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:14.5px;
+    line-height:1.55;
+  }
+  .subhead .kicker{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--coral);
+    font-weight:700;
+  }
+
+  .stage{
+    padding:28px clamp(18px,4vw,48px) 70px;
+    display:flex;
+    justify-content:center;
+  }
+
+  /* =========================================================
+     PATIENT APP — phone frame
+  ========================================================== */
+  .phone-wrap{display:none;}
+  .phone-wrap.active{display:flex;justify-content:center;}
+  .phone{
+    width:375px;
+    height:780px;
+    background:#0d0d0d;
+    border-radius:52px;
+    padding:14px;
+    box-shadow:var(--shadow), 0 0 0 2px rgba(31,61,52,0.06);
+    position:relative;
+  }
+  .phone-screen{
+    width:100%;height:100%;
+    background:var(--cream);
+    border-radius:38px;
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+  .notch{
+    position:absolute;
+    top:0;left:50%;
+    transform:translateX(-50%);
+    width:120px;height:26px;
+    background:#0d0d0d;
+    border-radius:0 0 16px 16px;
+    z-index:5;
+  }
+  .app-view{
+    flex:1;
+    display:none;
+    flex-direction:column;
+    overflow-y:auto;
+    padding:44px 20px 18px;
+    animation:fadein .35s ease;
+  }
+  .app-view.active{display:flex;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .app-greeting{color:var(--ink-soft);font-size:13px;margin:0;}
+  .app-greeting b{color:var(--pine);}
+  .app-h2{font-family:var(--display);font-size:23px;font-weight:600;margin:2px 0 18px;color:var(--pine);}
+
+  .next-card{
+    background:var(--pine);
+    color:var(--cream);
+    border-radius:20px;
+    padding:18px 18px 16px;
+    position:relative;
+    overflow:hidden;
+    margin-bottom:18px;
+  }
+  .next-card::after{
+    content:"";
+    position:absolute;right:-30px;top:-30px;
+    width:110px;height:110px;border-radius:50%;
+    background:rgba(255,255,255,0.06);
+  }
+  .next-card .label{font-size:10.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage);font-weight:700;}
+  .next-card .title{font-family:var(--display);font-size:19px;margin:5px 0 2px;font-weight:600;}
+  .next-card .meta{font-size:12.5px;color:rgba(250,246,238,0.75);}
+  .next-card .row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px;}
+  .next-card .btn-ghost{
+    background:rgba(250,246,238,0.14);
+    border:1px solid rgba(250,246,238,0.3);
+    color:var(--cream);
+    font-size:11.5px;
+    font-weight:600;
+    padding:7px 12px;
+    border-radius:100px;
+    cursor:pointer;
+  }
+
+  .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+  .quick-item{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px 8px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .quick-item:hover{transform:translateY(-2px);box-shadow:0 10px 18px -14px rgba(31,61,52,0.4);}
+  .quick-item .ic{font-size:19px;margin-bottom:6px;}
+  .quick-item span{font-size:11px;font-weight:600;color:var(--pine);display:block;line-height:1.3;}
+
+  .section-label{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.08em;
+    color:var(--ink-soft);font-weight:700;margin:2px 0 10px;
+  }
+  .reminder-card{
+    display:flex;gap:12px;align-items:flex-start;
+    background:var(--sage-wash);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:13px 14px;
+    margin-bottom:10px;
+  }
+  .reminder-card .dot{width:8px;height:8px;border-radius:50%;background:var(--coral);margin-top:5px;flex-shrink:0;}
+  .reminder-card p{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink);}
+  .reminder-card small{color:var(--ink-soft);font-size:11px;}
+
+  .service-list{display:flex;flex-direction:column;gap:10px;}
+  .service-item{
+    display:flex;align-items:center;gap:13px;
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    padding:13px 14px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .service-item:hover{border-color:var(--coral-light);}
+  .service-item.selected{border-color:var(--coral);background:var(--coral-wash);}
+  .service-item .ic{
+    width:38px;height:38px;border-radius:12px;
+    background:var(--sage-wash);
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;flex-shrink:0;
+  }
+  .service-item .info{flex:1;}
+  .service-item .info b{display:block;font-size:13.5px;color:var(--pine);}
+  .service-item .info span{font-size:11.5px;color:var(--ink-soft);}
+  .service-item .price{font-size:12.5px;font-weight:700;color:var(--ink);}
+
+  .day-strip{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 14px;}
+  .day-chip{
+    min-width:52px;flex-shrink:0;
+    border:1.5px solid var(--line);
+    background:var(--paper);
+    border-radius:14px;
+    padding:10px 6px 8px;
+    text-align:center;cursor:pointer;
+  }
+  .day-chip .dname{font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.04em;}
+  .day-chip .dnum{font-family:var(--display);font-size:17px;font-weight:600;color:var(--pine);margin-top:2px;}
+  .day-chip.selected{border-color:var(--pine);background:var(--pine);}
+  .day-chip.selected .dname,.day-chip.selected .dnum{color:var(--cream);}
+
+  .time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .time-chip{
+    border:1.5px solid var(--line);
+    background:var(--paper);
+    border-radius:12px;
+    padding:10px 4px;
+    text-align:center;
+    font-size:12.5px;font-weight:600;color:var(--ink);
+    cursor:pointer;
+  }
+  .time-chip.selected{border-color:var(--coral);background:var(--coral);color:#fff;}
+  .time-chip.disabled{opacity:0.35;pointer-events:none;text-decoration:line-through;}
+
+  .summary-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:18px;
+    padding:16px;margin:6px 0 16px;
+  }
+  .summary-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px dashed var(--line);}
+  .summary-row:last-child{border-bottom:none;}
+  .summary-row span:first-child{color:var(--ink-soft);}
+  .summary-row span:last-child{font-weight:600;color:var(--pine);}
+
+  .spacer{flex:1;}
+  .btn-primary{
+    background:var(--coral);color:#fff;border:none;
+    font-family:var(--body);font-weight:700;font-size:14.5px;
+    padding:15px;border-radius:14px;width:100%;cursor:pointer;
+    box-shadow:0 14px 24px -14px rgba(232,102,79,0.6);
+  }
+  .btn-primary:disabled{background:#DCD5C6;box-shadow:none;cursor:not-allowed;color:#948C77;}
+  .btn-text{
+    background:none;border:none;color:var(--ink-soft);
+    font-size:13px;font-weight:600;padding:12px 0;cursor:pointer;text-align:center;
+  }
+  .app-topnav{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .back-btn{
+    width:30px;height:30px;border-radius:50%;background:var(--paper);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--pine);font-size:15px;
+  }
+  .app-topnav h3{font-family:var(--display);font-size:16.5px;margin:0;color:var(--pine);font-weight:600;}
+
+  .success-wrap{align-items:center;justify-content:center;text-align:center;flex:1;}
+  .success-badge{
+    width:74px;height:74px;border-radius:50%;background:var(--sage-wash);
+    display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 18px;
+    border:2px solid var(--sage);
+  }
+  .success-wrap h2{font-family:var(--display);font-size:21px;color:var(--pine);margin:0 0 8px;}
+  .success-wrap p{font-size:13px;color:var(--ink-soft);max-width:260px;margin:0 auto 22px;line-height:1.55;}
+
+  .tabbar{
+    display:flex;justify-content:space-around;align-items:center;
+    padding:10px 6px calc(10px + env(safe-area-inset-bottom,0));
+    border-top:1px solid var(--line);
+    background:var(--paper);
+  }
+  .tab-btn{
+    background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--ink-soft);font-size:10px;font-weight:600;cursor:pointer;width:60px;
+  }
+  .tab-btn .ic{font-size:17px;}
+  .tab-btn.active{color:var(--coral);}
+
+  .placeholder-view{align-items:center;justify-content:center;text-align:center;flex:1;color:var(--ink-soft);}
+  .placeholder-view .ic{font-size:30px;margin-bottom:10px;}
+  .placeholder-view p{font-size:12.5px;max-width:220px;margin:0 auto;line-height:1.5;}
+
+  /* =========================================================
+     CLINIC DASHBOARD
+  ========================================================== */
+  .dash-wrap{display:none;width:100%;max-width:1180px;}
+  .dash-wrap.active{display:block;}
+  .browser-frame{
+    background:var(--paper);
+    border-radius:20px;
+    box-shadow:var(--shadow), 0 0 0 1px var(--line);
+    overflow:hidden;
+  }
+  .browser-bar{
+    display:flex;align-items:center;gap:8px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    background:#F4F0E7;
+  }
+  .browser-dot{width:10px;height:10px;border-radius:50%;}
+  .browser-url{
+    flex:1;background:var(--paper);border:1px solid var(--line);border-radius:8px;
+    padding:6px 12px;font-size:11.5px;color:var(--ink-soft);margin-left:8px;
+    font-family:var(--body);
+  }
+
+  .dash-body{display:flex;min-height:640px;}
+  .sidebar{
+    width:220px;flex-shrink:0;
+    background:var(--pine);
+    color:var(--cream);
+    padding:22px 16px;
+    display:flex;flex-direction:column;
+  }
+  .sidebar .brand-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:0 6px;}
+  .sidebar .brand-row .name{font-family:var(--display);font-size:15px;font-weight:600;line-height:1.2;}
+  .nav-item{
+    display:flex;align-items:center;gap:11px;
+    padding:10px 12px;border-radius:11px;
+    font-size:13.5px;font-weight:600;color:rgba(250,246,238,0.65);
+    cursor:pointer;margin-bottom:2px;
+  }
+  .nav-item .ic{font-size:15px;width:18px;text-align:center;}
+  .nav-item.active{background:rgba(250,246,238,0.12);color:var(--cream);}
+  .nav-item:hover:not(.active){color:var(--cream);}
+  .sidebar-foot{margin-top:auto;padding:14px 12px 4px;border-top:1px solid rgba(250,246,238,0.14);}
+  .sidebar-foot .who{font-size:12.5px;font-weight:700;}
+  .sidebar-foot .role{font-size:11px;color:rgba(250,246,238,0.55);}
+
+  .dash-main{flex:1;padding:26px 30px 30px;overflow:auto;}
+  .dash-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+  .dash-head h2{font-family:var(--display);font-size:23px;color:var(--pine);margin:0 0 4px;font-weight:600;}
+  .dash-head p{margin:0;color:var(--ink-soft);font-size:13px;}
+  .dash-actions{display:flex;gap:10px;}
+  .btn-outline{
+    border:1.5px solid var(--pine);background:none;color:var(--pine);
+    font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:11px;cursor:pointer;
+  }
+  .btn-solid{
+    border:none;background:var(--coral);color:#fff;
+    font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:11px;cursor:pointer;
+  }
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+  .stat-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+  }
+  .stat-card .lbl{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-soft);font-weight:700;}
+  .stat-card .val{font-family:var(--display);font-size:26px;color:var(--pine);margin:6px 0 2px;font-weight:600;}
+  .stat-card .delta{font-size:11.5px;font-weight:700;}
+  .stat-card .delta.up{color:var(--pine-light);}
+  .stat-card .delta.down{color:var(--coral);}
+
+  .dash-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:16px;}
+  .panel h3{font-family:var(--display);font-size:15.5px;color:var(--pine);margin:0 0 14px;font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+  .panel h3 .see-all{font-size:11.5px;color:var(--ink-soft);font-weight:600;cursor:pointer;font-family:var(--body);}
+
+  .sched-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .sched-row:last-child{border-bottom:none;}
+  .sched-time{width:56px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .sched-bar{width:4px;height:34px;border-radius:4px;background:var(--sage);flex-shrink:0;}
+  .sched-bar.confirmed{background:var(--pine-light);}
+  .sched-bar.pending{background:var(--coral-light);}
+  .sched-info{flex:1;}
+  .sched-info b{font-size:13px;color:var(--ink);display:block;}
+  .sched-info span{font-size:11.5px;color:var(--ink-soft);}
+  .status-chip{font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:100px;text-transform:uppercase;letter-spacing:0.03em;}
+  .status-chip.confirmed{background:var(--sage-wash);color:var(--pine-light);}
+  .status-chip.pending{background:var(--coral-wash);color:var(--coral);}
+
+  .patient-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);}
+  .patient-row:last-child{border-bottom:none;}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--sage-wash);color:var(--pine-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex-shrink:0;}
+  .patient-row b{font-size:12.5px;display:block;color:var(--ink);}
+  .patient-row span{font-size:11px;color:var(--ink-soft);}
+  .send-btn{margin-left:auto;font-size:11px;font-weight:700;color:var(--coral);background:none;border:none;cursor:pointer;}
+
+  .mini-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center;}
+  .mini-cal .dow{font-size:9.5px;color:var(--ink-soft);font-weight:700;margin-bottom:4px;}
+  .mini-cal .cell{font-size:11.5px;padding:6px 0;border-radius:8px;color:var(--ink);}
+  .mini-cal .cell.today{background:var(--pine);color:var(--cream);font-weight:700;}
+  .mini-cal .cell.has-appt{background:var(--sage-wash);font-weight:700;color:var(--pine-light);}
+
+  .toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--pine);color:var(--cream);
+    padding:13px 20px;border-radius:100px;font-size:13px;font-weight:600;
+    box-shadow:0 14px 30px -10px rgba(31,61,52,0.5);
+    opacity:0;pointer-events:none;transition:all .3s ease;
+    display:flex;align-items:center;gap:9px;z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast .dotok{width:7px;height:7px;border-radius:50%;background:var(--sage);}
+
+  @media (max-width:900px){
+    .dash-body{flex-direction:column;}
+    .sidebar{width:100%;flex-direction:row;align-items:center;padding:14px 16px;}
+    .sidebar .brand-row{margin-bottom:0;}
+    .sidebar-foot{display:none;}
+    .nav-item{display:none;}
+    .nav-item.active{display:flex;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .dash-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:420px){
+    .phone{width:100%;max-width:375px;height:720px;}
+    .stat-grid{grid-template-columns:1fr 1fr;}
+  }
+  .footnote{
+    text-align:center;color:var(--ink-soft);font-size:12px;padding:0 20px 40px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" fill="#1F3D34"/>
+        <path d="M11 23c0-5.5 4-9 9-9s9 3.5 9 9c0 2.2-1 3.6-2.4 4.4-.5.3-.8.9-.7 1.5l.2 1.3c.1.9-.6 1.7-1.5 1.7-.7 0-1.3-.5-1.4-1.2l-.3-1.6a.9.9 0 0 0-.9-.7h-4a.9.9 0 0 0-.9.7l-.3 1.6c-.1.7-.7 1.2-1.4 1.2-.9 0-1.6-.8-1.5-1.7l.2-1.3c.1-.6-.2-1.2-.7-1.5C12 26.6 11 25.2 11 23z" fill="#C9D9C2"/>
+        <circle cx="16.5" cy="20.5" r="1.4" fill="#1F3D34"/>
+        <circle cx="23.5" cy="20.5" r="1.4" fill="#1F3D34"/>
+      </svg>
+      <div class="brand-text">
+        <div class="name">Hutto Hippo Family Dental</div>
+        <div class="tag">Patient App &amp; Clinic Platform</div>
+      </div>
+    </div>
+    <div class="demo-pill">Live prototype</div>
+  </div>
+
+  <div class="subhead">
+    <div class="kicker">Built by Yousef Sonbol · Mobile &amp; Web</div>
+    <h1>One system, two experiences</h1>
+    <p>A booking app patients keep on their phone, and a scheduling dashboard your front desk runs the whole day from — sharing the same live data. Click through both below; everything responds in real time.</p>
+  </div>
+
+  <div class="topbar" style="padding-top:6px;">
+    <div class="switcher" id="switcher">
+      <button class="active" data-target="app">📱 Patient App</button>
+      <button data-target="dash">💻 Clinic Dashboard</button>
+    </div>
+    <div></div>
+  </div>
+
+  <div class="stage">
+
+    <!-- ============ PATIENT APP ============ -->
+    <div class="phone-wrap active" id="view-app">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="notch"></div>
+
+          <!-- HOME -->
+          <div class="app-view active" data-screen="home">
+            <p class="app-greeting">Good morning, <b>Maria</b></p>
+            <h2 class="app-h2">Your smile, taken care of</h2>
+
+            <div class="next-card">
+              <div class="label">Next Appointment</div>
+              <div class="title">Cleaning &amp; Checkup</div>
+              <div class="meta">Thu, Aug 6 · 10:30 AM · Dr. Nguyen</div>
+              <div class="row">
+                <span class="meta">Room 2 · ~45 min</span>
+                <button class="btn-ghost" onclick="showToast('Added to your calendar')">Add to calendar</button>
+              </div>
+            </div>
+
+            <div class="quick-grid">
+              <div class="quick-item" onclick="goto('book-service')">
+                <div class="ic">🗓️</div><span>Book Visit</span>
+              </div>
+              <div class="quick-item" onclick="goto('records')">
+                <div class="ic">🦷</div><span>My Records</span>
+              </div>
+              <div class="quick-item" onclick="goto('messages')">
+                <div class="ic">💬</div><span>Message Us</span>
+              </div>
+            </div>
+
+            <div class="section-label">Reminders</div>
+            <div class="reminder-card">
+              <div class="dot"></div>
+              <p>Your insurance on file expires this month. <br><small>Tap to update details.</small></p>
+            </div>
+            <div class="reminder-card">
+              <div class="dot"></div>
+              <p>Time for your 6-month cleaning. <br><small>Book before Aug 15 to keep your preferred slot.</small></p>
+            </div>
+          </div>
+
+          <!-- BOOK: SERVICE -->
+          <div class="app-view" data-screen="book-service">
+            <div class="app-topnav">
+              <div class="back-btn" onclick="goto('home')">←</div>
+              <h3>What do you need?</h3>
+            </div>
+            <div class="section-label" style="margin-top:14px;">Choose a service</div>
+            <div class="service-list" id="service-list">
+              <div class="service-item" data-service="Cleaning &amp; Checkup" data-price="$95">
+                <div class="ic">🪥</div>
+                <div class="info"><b>Cleaning &amp; Checkup</b><span>45 min · Routine care</span></div>
+                <div class="price">$95</div>
+              </div>
+              <div class="service-item" data-service="Teeth Whitening" data-price="$220">
+                <div class="ic">✨</div>
+                <div class="info"><b>Teeth Whitening</b><span>60 min · Cosmetic</span></div>
+                <div class="price">$220</div>
+              </div>
+              <div class="service-item" data-service="Emergency Visit" data-price="$60">
+                <div class="ic">🚨</div>
+                <div class="info"><b>Emergency Visit</b><span>30 min · Same-day</span></div>
+                <div class="price">$60</div>
+              </div>
+              <div class="service-item" data-service="Braces Consult" data-price="Free">
+                <div class="ic">😁</div>
+                <div class="info"><b>Braces Consult</b><span>30 min · New patients</span></div>
+                <div class="price">Free</div>
+              </div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn-primary" id="service-next" disabled onclick="goto('book-time')">Continue</button>
+          </div>
+
+          <!-- BOOK: TIME -->
+          <div class="app-view" data-screen="book-time">
+            <div class="app-topnav">
+              <div class="back-btn" onclick="goto('book-service')">←</div>
+              <h3>Pick a time</h3>
+            </div>
+            <div class="section-label" style="margin-top:14px;">August 2026</div>
+            <div class="day-strip" id="day-strip">
+              <div class="day-chip" data-day="Mon 3"><div class="dname">Mon</div><div class="dnum">3</div></div>
+              <div class="day-chip" data-day="Tue 4"><div class="dname">Tue</div><div class="dnum">4</div></div>
+              <div class="day-chip" data-day="Wed 5"><div class="dname">Wed</div><div class="dnum">5</div></div>
+              <div class="day-chip selected" data-day="Thu 6"><div class="dname">Thu</div><div class="dnum">6</div></div>
+              <div class="day-chip" data-day="Fri 7"><div class="dname">Fri</div><div class="dnum">7</div></div>
+              <div class="day-chip" data-day="Sat 8"><div class="dname">Sat</div><div class="dnum">8</div></div>
+            </div>
+            <div class="section-label">Available times</div>
+            <div class="time-grid" id="time-grid">
+              <div class="time-chip">9:00 AM</div>
+              <div class="time-chip disabled">9:30 AM</div>
+              <div class="time-chip selected">10:30 AM</div>
+              <div class="time-chip">11:15 AM</div>
+              <div class="time-chip disabled">1:00 PM</div>
+              <div class="time-chip">2:30 PM</div>
+              <div class="time-chip">3:15 PM</div>
+              <div class="time-chip disabled">4:00 PM</div>
+              <div class="time-chip">4:45 PM</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn-primary" onclick="goto('book-confirm')">Continue</button>
+          </div>
+
+          <!-- BOOK: CONFIRM -->
+          <div class="app-view" data-screen="book-confirm">
+            <div class="app-topnav">
+              <div class="back-btn" onclick="goto('book-time')">←</div>
+              <h3>Confirm visit</h3>
+            </div>
+            <div class="summary-card" style="margin-top:16px;">
+              <div class="summary-row"><span>Service</span><span id="sum-service">Cleaning &amp; Checkup</span></div>
+              <div class="summary-row"><span>Day</span><span id="sum-day">Thu, Aug 6</span></div>
+              <div class="summary-row"><span>Time</span><span id="sum-time">10:30 AM</span></div>
+              <div class="summary-row"><span>Dentist</span><span>Dr. Nguyen</span></div>
+              <div class="summary-row"><span>Est. cost</span><span id="sum-price">$95</span></div>
+            </div>
+            <div class="reminder-card" style="background:var(--paper);">
+              <div class="dot" style="background:var(--pine-light);"></div>
+              <p>You'll get a text reminder 24 hours before your visit, and can reschedule free up to 4 hours ahead.</p>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn-primary" onclick="goto('book-success')">Confirm Booking</button>
+          </div>
+
+          <!-- BOOK: SUCCESS -->
+          <div class="app-view success-wrap" data-screen="book-success">
+            <div class="success-badge">✓</div>
+            <h2>You're booked!</h2>
+            <p>We've saved your spot for Thursday, August 6 at 10:30 AM. A confirmation text is on its way.</p>
+            <button class="btn-primary" style="max-width:220px;" onclick="goto('home')">Back to Home</button>
+            <button class="btn-text" onclick="showToast('Added to your calendar')">Add to calendar</button>
+          </div>
+
+          <!-- MESSAGES placeholder -->
+          <div class="app-view placeholder-view" data-screen="messages">
+            <div class="ic">💬</div>
+            <p><b>Message the front desk</b><br>Ask about billing, insurance, or your treatment plan — replies land here and in their dashboard inbox.</p>
+          </div>
+
+          <!-- RECORDS placeholder -->
+          <div class="app-view placeholder-view" data-screen="records">
+            <div class="ic">🦷</div>
+            <p><b>Your treatment history</b><br>X-rays, visit notes, and billing — all in one place, always up to date.</p>
+          </div>
+
+          <div class="tabbar">
+            <button class="tab-btn active" data-tab="home" onclick="goto('home')"><span class="ic">🏠</span>Home</button>
+            <button class="tab-btn" data-tab="book" onclick="goto('book-service')"><span class="ic">🗓️</span>Book</button>
+            <button class="tab-btn" data-tab="messages" onclick="goto('messages')"><span class="ic">💬</span>Messages</button>
+            <button class="tab-btn" data-tab="records" onclick="goto('records')"><span class="ic">🦷</span>Records</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CLINIC DASHBOARD ============ -->
+    <div class="dash-wrap" id="view-dash">
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <div class="browser-dot" style="background:#E8664F;"></div>
+          <div class="browser-dot" style="background:#E7B549;"></div>
+          <div class="browser-dot" style="background:#8FAF88;"></div>
+          <div class="browser-url">app.huttohippodental.com/dashboard</div>
+        </div>
+        <div class="dash-body">
+          <div class="sidebar">
+            <div class="brand-row">
+              <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" fill="#C9D9C2"/>
+                <path d="M11 23c0-5.5 4-9 9-9s9 3.5 9 9c0 2.2-1 3.6-2.4 4.4-.5.3-.8.9-.7 1.5l.2 1.3c.1.9-.6 1.7-1.5 1.7-.7 0-1.3-.5-1.4-1.2l-.3-1.6a.9.9 0 0 0-.9-.7h-4a.9.9 0 0 0-.9.7l-.3 1.6c-.1.7-.7 1.2-1.4 1.2-.9 0-1.6-.8-1.5-1.7l.2-1.3c.1-.6-.2-1.2-.7-1.5C12 26.6 11 25.2 11 23z" fill="#1F3D34"/>
+              </svg>
+              <div class="name">Hutto Hippo<br>Family Dental</div>
+            </div>
+            <div class="nav-item active"><span class="ic">◎</span>Overview</div>
+            <div class="nav-item"><span class="ic">🗓</span>Schedule</div>
+            <div class="nav-item"><span class="ic">👥</span>Patients</div>
+            <div class="nav-item"><span class="ic">💬</span>Messages</div>
+            <div class="nav-item"><span class="ic">⚙</span>Settings</div>
+            <div class="sidebar-foot">
+              <div class="who">Front Desk — Ana R.</div>
+              <div class="role">Signed in</div>
+            </div>
+          </div>
+
+          <div class="dash-main">
+            <div class="dash-head">
+              <div>
+                <h2>Good morning, Ana</h2>
+                <p>Thursday, August 6 · 3 dentists on schedule today</p>
+              </div>
+              <div class="dash-actions">
+                <button class="btn-outline" onclick="showToast('Reminder texts queued for tomorrow’s patients')">Send day-before reminders</button>
+                <button class="btn-solid" onclick="showToast('New appointment slot opened')">+ New Appointment</button>
+              </div>
+            </div>
+
+            <div class="stat-grid">
+              <div class="stat-card">
+                <div class="lbl">Today's Visits</div>
+                <div class="val">14</div>
+                <div class="delta up">↑ 2 vs last Thu</div>
+              </div>
+              <div class="stat-card">
+                <div class="lbl">No-show Rate</div>
+                <div class="val">3.1%</div>
+                <div class="delta up">↓ from 9.4% pre-app</div>
+              </div>
+              <div class="stat-card">
+                <div class="lbl">New Patients</div>
+                <div class="val">6</div>
+                <div class="delta up">↑ this week</div>
+              </div>
+              <div class="stat-card">
+                <div class="lbl">Booked Online</div>
+                <div class="val">71%</div>
+                <div class="delta up">of all visits</div>
+              </div>
+            </div>
+
+            <div class="dash-grid">
+              <div>
+                <div class="panel">
+                  <h3>Today's Schedule <span class="see-all">View full calendar</span></h3>
+                  <div class="sched-row">
+                    <div class="sched-time">9:00 AM</div>
+                    <div class="sched-bar confirmed"></div>
+                    <div class="sched-info"><b>James Carter</b><span>Cleaning &amp; Checkup · Dr. Nguyen</span></div>
+                    <div class="status-chip confirmed">Confirmed</div>
+                  </div>
+                  <div class="sched-row">
+                    <div class="sched-time">10:30 AM</div>
+                    <div class="sched-bar confirmed"></div>
+                    <div class="sched-info"><b>Maria Lopez</b><span>Cleaning &amp; Checkup · Dr. Nguyen</span></div>
+                    <div class="status-chip confirmed">Confirmed</div>
+                  </div>
+                  <div class="sched-row">
+                    <div class="sched-time">11:15 AM</div>
+                    <div class="sched-bar pending"></div>
+                    <div class="sched-info"><b>Devon Wu</b><span>Braces Consult · Dr. Patel</span></div>
+                    <div class="status-chip pending">Pending</div>
+                  </div>
+                  <div class="sched-row">
+                    <div class="sched-time">1:30 PM</div>
+                    <div class="sched-bar confirmed"></div>
+                    <div class="sched-info"><b>Sara Kim</b><span>Whitening · Dr. Nguyen</span></div>
+                    <div class="status-chip confirmed">Confirmed</div>
+                  </div>
+                  <div class="sched-row">
+                    <div class="sched-time">2:30 PM</div>
+                    <div class="sched-bar pending"></div>
+                    <div class="sched-info"><b>Elena Ruiz</b><span>Emergency Visit · Dr. Patel</span></div>
+                    <div class="status-chip pending">Pending</div>
+                  </div>
+                </div>
+
+                <div class="panel">
+                  <h3>Patient Follow-ups Due</h3>
+                  <div class="patient-row">
+                    <div class="avatar">JC</div>
+                    <div><b>James Carter</b><span>6-month cleaning overdue by 2 weeks</span></div>
+                    <button class="send-btn" onclick="showToast('Reminder sent to James Carter')">Send Reminder</button>
+                  </div>
+                  <div class="patient-row">
+                    <div class="avatar">TN</div>
+                    <div><b>Tom Nguyen</b><span>Insurance on file expires this month</span></div>
+                    <button class="send-btn" onclick="showToast('Reminder sent to Tom Nguyen')">Send Reminder</button>
+                  </div>
+                  <div class="patient-row">
+                    <div class="avatar">RB</div>
+                    <div><b>Riya Basu</b><span>Whitening follow-up recommended</span></div>
+                    <button class="send-btn" onclick="showToast('Reminder sent to Riya Basu')">Send Reminder</button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="panel">
+                  <h3>August</h3>
+                  <div class="mini-cal">
+                    <div class="dow">S</div><div class="dow">M</div><div class="dow">T</div><div class="dow">W</div><div class="dow">T</div><div class="dow">F</div><div class="dow">S</div>
+                    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell has-appt">6</div>
+                    <div class="cell has-appt today">6</div><div class="cell">7</div><div class="cell has-appt">8</div><div class="cell">9</div><div class="cell">10</div><div class="cell">11</div><div class="cell">12</div>
+                  </div>
+                </div>
+                <div class="panel">
+                  <h3>This Week</h3>
+                  <div class="summary-row" style="border:none;"><span>Revenue booked</span><span style="color:var(--pine);font-weight:700;">$8,240</span></div>
+                  <div class="summary-row" style="border:none;"><span>Avg. chair time</span><span style="color:var(--pine);font-weight:700;">42 min</span></div>
+                  <div class="summary-row" style="border:none;"><span>Rebooked at checkout</span><span style="color:var(--pine);font-weight:700;">64%</span></div>
+                </div>
+                <div class="panel">
+                  <h3>Inbox</h3>
+                  <div class="patient-row">
+                    <div class="avatar">SK</div>
+                    <div><b>Sara Kim</b><span>"Can I move to an earlier slot?"</span></div>
+                  </div>
+                  <div class="patient-row">
+                    <div class="avatar">DW</div>
+                    <div><b>Devon Wu</b><span>"Does insurance cover the consult?"</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="footnote">Prototype for pitch purposes — built with Flutter (iOS &amp; Android) and a web dashboard, sharing one backend. Ready to connect to real scheduling &amp; records systems.</p>
+
+  <div class="toast" id="toast"><span class="dotok"></span><span id="toast-text"></span></div>
+
+<script>
+  // ---- view switcher (app vs dashboard) ----
+  const switcher = document.getElementById('switcher');
+  switcher.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    switcher.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = btn.dataset.target;
+    document.getElementById('view-app').classList.toggle('active', target==='app');
+    document.getElementById('view-dash').classList.toggle('active', target==='dash');
+  });
+
+  // ---- phone screen navigation ----
+  function goto(screen){
+    document.querySelectorAll('.app-view').forEach(v=>v.classList.remove('active'));
+    const el = document.querySelector('.app-view[data-screen="'+screen+'"]');
+    if(el) el.classList.add('active');
+
+    document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+    let tabKey = screen;
+    if(screen.startsWith('book')) tabKey = 'book';
+    if(screen==='home') tabKey='home';
+    const tab = document.querySelector('.tab-btn[data-tab="'+tabKey+'"]');
+    if(tab) tab.classList.add('active');
+  }
+
+  // ---- service selection ----
+  const serviceList = document.getElementById('service-list');
+  const serviceNext = document.getElementById('service-next');
+  let chosenService = null, chosenPrice = null;
+  serviceList.addEventListener('click', (e)=>{
+    const item = e.target.closest('.service-item');
+    if(!item) return;
+    serviceList.querySelectorAll('.service-item').forEach(i=>i.classList.remove('selected'));
+    item.classList.add('selected');
+    chosenService = item.dataset.service;
+    chosenPrice = item.dataset.price;
+    serviceNext.disabled = false;
+    document.getElementById('sum-service').textContent = chosenService;
+    document.getElementById('sum-price').textContent = chosenPrice;
+  });
+
+  // ---- day selection ----
+  const dayStrip = document.getElementById('day-strip');
+  dayStrip.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.day-chip');
+    if(!chip) return;
+    dayStrip.querySelectorAll('.day-chip').forEach(c=>c.classList.remove('selected'));
+    chip.classList.add('selected');
+    document.getElementById('sum-day').textContent = chip.dataset.day;
+  });
+
+  // ---- time selection ----
+  const timeGrid = document.getElementById('time-grid');
+  timeGrid.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.time-chip');
+    if(!chip || chip.classList.contains('disabled')) return;
+    timeGrid.querySelectorAll('.time-chip').forEach(c=>c.classList.remove('selected'));
+    chip.classList.add('selected');
+    document.getElementById('sum-time').textContent = chip.textContent;
+  });
+
+  // ---- toast ----
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    document.getElementById('toast-text').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
+  }
+</script>
+
+</body>
+</html>
