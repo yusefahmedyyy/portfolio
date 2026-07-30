@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crown & Fade — The Chair Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f;
+    --ink-soft:#1f1c16;
+    --ink-softer:#28241c;
+    --ivory:#ede6d6;
+    --ivory-dim:#cdc4ae;
+    --barber-red:#a8322b;
+    --barber-blue:#1d4ed8;
+    --barber-red-dim:#7c2521;
+    --brass:#b8925a;
+    --brass-light:#d4b384;
+    --steel:#8b8478;
+    --green:#4a6350;
+    --radius-lg:28px;
+    --radius-md:16px;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, #24201a 0%, transparent 45%),
+      radial-gradient(circle at 85% 10%, #241914 0%, transparent 40%),
+      var(--ink);
+    color:var(--ivory);
+    font-family:var(--font-body);
+    min-height:100vh;
+    padding:40px 32px 80px;
+  }
+  a{color:inherit;}
+
+  /* ---------- Header ---------- */
+  .topbar{
+    max-width:1180px;
+    margin:0 auto 56px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-mark{
+    width:52px;height:52px;border-radius:50%;
+    background:conic-gradient(from 45deg, var(--barber-red), var(--ivory), var(--ink), var(--barber-red));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 3px var(--brass), 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .brand-mark span{
+    width:38px;height:38px;border-radius:50%;background:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--brass-light);
+    letter-spacing:0.5px;
+  }
+  .brand-text .name{
+    font-family:var(--font-display);font-size:22px;font-weight:600;
+    letter-spacing:0.5px;color:var(--ivory);
+  }
+  .brand-text .sub{
+    font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);margin-top:2px;
+  }
+
+  .demo-tag{
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--steel);
+    border:1px solid var(--ink-softer);padding:8px 14px;border-radius:999px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .demo-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);}
+
+  /* ---------- Pole toggle ---------- */
+  .toggle-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .toggle-labels{
+    display:flex;gap:70px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--steel);
+    cursor:pointer;
+  }
+  .toggle-labels span.active{color:var(--brass-light);font-weight:700;}
+  .pole-toggle{
+    position:relative;
+    width:236px;height:56px;
+    border-radius:999px;
+    border:3px solid var(--brass);
+    cursor:pointer;
+    overflow:hidden;
+    background:repeating-linear-gradient(45deg,
+      var(--barber-red) 0 16px,
+      var(--ivory) 16px 32px,
+      var(--ink) 32px 48px);
+    background-size:200% 200%;
+    box-shadow:inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 18px rgba(0,0,0,0.35);
+  }
+  .pole-toggle.spin{ animation: pole-spin 0.7s linear; }
+  @keyframes pole-spin{ from{background-position:0 0;} to{background-position:-96px 0;} }
+
+  .pole-knob{
+    position:absolute;top:4px;left:4px;
+    width:112px;height:44px;
+    border-radius:999px;
+    background:var(--ink);
+    border:2px solid var(--brass-light);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:1px;color:var(--ivory);
+    transition:transform 0.45s cubic-bezier(.65,-0.25,.35,1.25);
+    box-shadow:0 4px 10px rgba(0,0,0,0.5);
+  }
+  .pole-toggle.web .pole-knob{ transform:translateX(114px); }
+
+  /* ---------- Layout ---------- */
+  .stage{
+    max-width:1180px;margin:0 auto;
+    display:grid;grid-template-columns:auto 1fr;gap:64px;
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .stage{grid-template-columns:1fr;justify-items:center;}
+  }
+
+  /* ---------- Phone frame ---------- */
+  .device-col{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  .phone-frame{
+    width:328px;height:672px;
+    border-radius:56px;
+    background:linear-gradient(155deg,#3a3733 0%, #17150f 45%, #221f1a 100%);
+    padding:14px;
+    box-shadow:
+      0 0 0 2px #4d493f,
+      0 30px 60px rgba(0,0,0,0.55),
+      inset 0 0 0 1px rgba(255,255,255,0.04);
+    position:relative;
+  }
+  .phone-frame::before{
+    content:'';position:absolute;right:-2px;top:150px;width:3px;height:60px;
+    background:#4d493f;border-radius:2px;
+  }
+  .phone-frame::after{
+    content:'';position:absolute;right:-2px;top:230px;width:3px;height:90px;
+    background:#4d493f;border-radius:2px;
+  }
+  .phone-screen{
+    width:100%;height:100%;
+    background:var(--ink-soft);
+    border-radius:42px;
+    overflow:hidden;
+    position:relative;
+    display:flex;flex-direction:column;
+  }
+  .island{
+    position:absolute;top:14px;left:50%;transform:translateX(-50%);
+    width:108px;height:30px;background:#000;border-radius:20px;z-index:5;
+  }
+  .status-row{
+    display:flex;justify-content:space-between;padding:20px 26px 6px;
+    font-family:var(--font-mono);font-size:12px;color:var(--ivory-dim);
+  }
+
+  .app-screen{flex:1;overflow-y:auto;padding:14px 20px 90px;}
+  .app-greet{font-size:12px;color:var(--steel);margin:6px 2px 2px;}
+  .app-name{font-family:var(--font-display);font-size:23px;font-weight:600;margin:0 0 18px 2px;}
+
+  /* Loyalty Card & Animated Striped Bar */
+  .loyalty-card{
+    background:linear-gradient(120deg, var(--brass) 0%, #8a6a3c 55%, #6b4f28 100%);
+    border-radius:18px;padding:20px;position:relative;overflow:hidden;
+    box-shadow:0 12px 24px rgba(0,0,0,0.35);
+    margin-bottom:16px;
+  }
+  .loyalty-card::after{
+    content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;
+    border-radius:50%;background:rgba(255,255,255,0.08);
+  }
+  .loyalty-card .club{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:#2a2115;opacity:0.75;}
+  .loyalty-card .tier{font-family:var(--font-display);font-size:19px;font-weight:600;color:#241a0d;margin:6px 0 18px;}
+  .loyalty-card .pts-row{display:flex;justify-content:space-between;align-items:flex-end;}
+  .loyalty-card .pts{font-family:var(--font-mono);font-size:26px;font-weight:700;color:#221a0e;}
+  .loyalty-card .pts-label{font-size:10px;color:#3a2c17;letter-spacing:1px;}
+  
+  .loyalty-card .progress-track{
+    margin-top:14px;height:10px;border-radius:6px;background:rgba(0,0,0,0.4);overflow:hidden;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,0.5);
+  }
+  .loyalty-card .progress-fill{
+    height:100%;width:68%;border-radius:6px;transition:width 0.4s ease;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--barber-red),
+      var(--barber-red) 8px,
+      #ffffff 8px,
+      #ffffff 14px,
+      var(--barber-blue) 14px,
+      var(--barber-blue) 22px,
+      #ffffff 22px,
+      #ffffff 28px
+    );
+    background-size: 40px 40px;
+    animation: moveStripes 2s linear infinite;
+  }
+  @keyframes moveStripes {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 0; }
+  }
+  .loyalty-card .progress-note{font-size:10px;color:#3a2c17;margin-top:6px;font-weight:600;}
+
+  /* Home Book CTA Button */
+  .home-book-cta{
+    width:100%;background:linear-gradient(135deg, var(--barber-red) 0%, #80231d 100%);
+    color:var(--ivory);border:none;border-radius:14px;padding:12px 16px;
+    font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:0.5px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+    box-shadow:0 4px 14px rgba(168, 50, 43, 0.4);margin-bottom:20px;
+    transition:transform 0.15s ease, background 0.2s;
+  }
+  .home-book-cta:active{transform:scale(0.98);}
+  .home-book-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;}
+
+  .section-label{
+    font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--steel);
+    margin:18px 2px 10px;
+  }
+  .appt-card{
+    background:var(--ink-softer);border-radius:14px;padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;
+    border:1px solid #332e24;
+  }
+  .appt-card .info .when{font-size:13px;font-weight:600;color:var(--ivory);}
+  .appt-card .info .what{font-size:12px;color:var(--steel);margin-top:3px;}
+  .appt-chip{
+    font-family:var(--font-mono);font-size:10px;padding:4px 8px;border-radius:999px;
+    background:rgba(74,99,80,0.25);color:#9fd3ab;white-space:nowrap;
+  }
+  .appt-chip.past{background:rgba(139,132,120,0.2);color:var(--steel);}
+
+  .reward-card{
+    background:var(--ink-softer);border-radius:14px;padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;
+  }
+  .reward-card .info .title{font-size:13px;font-weight:600;color:var(--ivory);}
+  .reward-card .info .cost{font-size:11px;color:var(--brass-light);margin-top:3px;font-family:var(--font-mono);}
+  .redeem-btn, .action-btn{
+    background:var(--barber-red);color:var(--ivory);border:none;border-radius:999px;
+    padding:9px 16px;font-size:11px;font-weight:600;letter-spacing:0.5px;font-family:var(--font-body);
+    cursor:pointer;transition:background 0.2s, opacity 0.2s;
+  }
+  .action-btn{
+    width: 100%; padding: 12px; font-size: 13px; margin-top: 15px; text-align: center; border-radius:12px;
+  }
+  .action-btn.secondary{background:transparent;border:1px solid var(--steel);color:var(--ivory-dim);margin-top:8px;}
+  .redeem-btn:hover, .action-btn:hover{background:#c0392b;}
+  .redeem-btn:disabled, .action-btn:disabled{background:var(--steel);opacity:0.5;cursor:not-allowed;}
+
+  .history-row{
+    display:flex;justify-content:space-between;padding:10px 2px;
+    border-bottom:1px solid var(--ink-softer);font-size:12px;
+  }
+  .history-row .visit{color:var(--ivory-dim);}
+  .history-row .earned{color:var(--brass-light);font-family:var(--font-mono);}
+
+  /* Detailed Booking UI Components */
+  .booking-stepper{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
+    background:var(--ink-softer);padding:8px 12px;border-radius:10px;font-size:10px;color:var(--steel);
+    font-family:var(--font-mono);
+  }
+  .booking-stepper .step-active{color:var(--brass-light);font-weight:700;}
+
+  .select-card{
+    background:var(--ink-softer);border:1px solid #3d372c;border-radius:12px;padding:12px;
+    margin-bottom:10px;cursor:pointer;transition:all 0.2s ease;
+  }
+  .select-card:hover, .select-card.selected{
+    border-color:var(--brass-light);background:#312b22;
+  }
+  .select-card .card-head{display:flex;justify-content:space-between;align-items:center;}
+  .select-card .card-title{font-size:13px;font-weight:600;color:var(--ivory);}
+  .select-card .card-price{font-family:var(--font-mono);font-size:12px;color:var(--brass-light);}
+  .select-card .card-sub{font-size:11px;color:var(--steel);margin-top:4px;}
+
+  .addon-option{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--ink-softer);border:1px solid #3d372c;padding:10px 12px;border-radius:10px;margin-bottom:8px;
+  }
+  .addon-option input[type="checkbox"]{accent-color:var(--brass-light);width:16px;height:16px;}
+
+  .time-slots{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-top:6px;}
+  .time-slot{
+    background:var(--ink-softer);border:1px solid #3d372c;border-radius:8px;padding:8px 4px;
+    text-align:center;font-size:11px;font-family:var(--font-mono);cursor:pointer;color:var(--ivory-dim);
+  }
+  .time-slot.selected{background:var(--brass);color:var(--ink);border-color:var(--brass-light);font-weight:700;}
+
+  /* Bookings Segmented Control */
+  .segmented-control{
+    display:flex;background:var(--ink-softer);border-radius:10px;padding:3px;margin-bottom:16px;
+  }
+  .segment-btn{
+    flex:1;text-align:center;padding:8px 0;font-size:11px;font-weight:600;color:var(--steel);
+    border-radius:8px;cursor:pointer;transition:all 0.2s;
+  }
+  .segment-btn.active{background:var(--ink-soft);color:var(--ivory);box-shadow:0 2px 6px rgba(0,0,0,0.3);}
+
+  /* Tabbar Styles */
+  .tabbar{
+    position:absolute;bottom:0;left:0;right:0;height:78px;
+    background:rgba(31,28,22,0.92);backdrop-filter:blur(6px);
+    display:flex;align-items:flex-start;justify-content:space-around;
+    padding-top:12px;border-top:1px solid var(--ink-softer);
+  }
+  .tab{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:var(--steel);letter-spacing:0.5px;cursor:pointer;transition:color 0.2s;}
+  .tab.active{color:var(--brass-light);}
+  .tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  .phone-caption{font-size:11px;color:var(--steel);letter-spacing:1px;text-transform:uppercase;}
+
+  /* ---------- Browser frame ---------- */
+  .browser-frame{
+    width:100%;max-width:760px;
+    background:var(--ink-soft);
+    border-radius:18px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px var(--ink-softer);
+    overflow:hidden;
+  }
+  .browser-top{
+    display:flex;align-items:center;gap:10px;padding:14px 18px;
+    background:var(--ink-softer);border-bottom:1px solid #332e24;
+  }
+  .browser-dot{width:10px;height:10px;border-radius:50%;}
+  .browser-url{
+    flex:1;margin-left:10px;background:var(--ink);border-radius:8px;padding:7px 14px;
+    font-family:var(--font-mono);font-size:12px;color:var(--steel);
+  }
+  .dash-body{display:grid;grid-template-columns:190px 1fr;min-height:520px;}
+  .dash-sidebar{
+    background:#1b1812;padding:22px 16px;border-right:1px solid var(--ink-softer);
+  }
+  .dash-sidebar .brand-mini{font-family:var(--font-display);font-size:16px;font-weight:600;margin-bottom:22px;padding:0 6px;}
+  .nav-item{
+    font-size:13px;color:var(--steel);padding:10px 12px;border-radius:10px;margin-bottom:4px;
+    display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.2s;
+  }
+  .nav-item.active{background:var(--barber-red-dim);color:var(--ivory);}
+  .nav-item .dotico{width:6px;height:6px;border-radius:50%;background:currentColor;}
+
+  .dash-main{padding:24px 26px;}
+  .dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+  .dash-header h2{font-family:var(--font-display);font-size:20px;font-weight:600;margin:0;}
+  .dash-header .date{font-size:12px;color:var(--steel);font-family:var(--font-mono);}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px;}
+  .stat-card{background:var(--ink-softer);border-radius:12px;padding:14px;}
+  .stat-card .label{font-size:10px;color:var(--steel);letter-spacing:1px;text-transform:uppercase;}
+  .stat-card .value{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--brass-light);margin-top:6px;}
+
+  .dash-columns{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;}
+  .panel{background:var(--ink-softer);border-radius:12px;padding:16px;}
+  .panel h3{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--steel);margin:0 0 12px;font-weight:600;}
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th{text-align:left;color:var(--steel);font-weight:500;padding-bottom:8px;font-size:10px;letter-spacing:0.5px;text-transform:uppercase;}
+  td{padding:8px 0;border-top:1px solid #332e24;color:var(--ivory-dim);}
+  .status-pill{font-family:var(--font-mono);font-size:9px;padding:3px 8px;border-radius:999px;background:rgba(74,99,80,0.25);color:#9fd3ab;}
+
+  .leader-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid #332e24;font-size:12px;}
+  .leader-row:first-of-type{border-top:none;}
+  .leader-name{color:var(--ivory-dim);}
+  .leader-pts{font-family:var(--font-mono);color:var(--brass-light);}
+
+  .bar-chart{display:flex;align-items:flex-end;gap:8px;height:90px;margin-top:14px;}
+  .bar-chart .bar{flex:1;background:linear-gradient(180deg,var(--brass) 0%, var(--barber-red-dim) 100%);border-radius:4px 4px 0 0;position:relative;}
+  .bar-chart .bar span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:9px;color:var(--steel);}
+
+  /* ---------- Feature panel ---------- */
+  .features{max-width:420px;}
+  .features .eyebrow{
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--brass-light);margin-bottom:10px;
+  }
+  .features h3{
+    font-family:var(--font-display);font-size:28px;font-weight:600;margin:0 0 8px;line-height:1.2;
+  }
+  .features .desc{font-size:14px;color:var(--ivory-dim);line-height:1.6;margin-bottom:28px;}
+  .feature-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:18px;}
+  .feature-list li{display:flex;gap:14px;align-items:flex-start;}
+  .feature-check{
+    width:26px;height:26px;border-radius:50%;flex:none;
+    background:var(--ink-softer);border:1px solid var(--brass);
+    display:flex;align-items:center;justify-content:center;margin-top:1px;
+  }
+  .feature-check svg{width:12px;height:12px;}
+  .feature-list .f-title{font-size:14px;font-weight:600;color:var(--ivory);margin-bottom:3px;}
+  .feature-list .f-desc{font-size:13px;color:var(--steel);line-height:1.5;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+  .view-flex{display:none;}
+  .view-flex.active{display:flex;flex-direction:column;align-items:center;gap:16px;}
+
+  .fade-in{animation:fadein 0.5s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  @media (max-width:640px){
+    body{padding:28px 18px 60px;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .dash-columns{grid-template-columns:1fr;}
+    .dash-body{grid-template-columns:1fr;}
+    .dash-sidebar{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark"><span>C&F</span></div>
+      <div class="brand-text">
+        <div class="name">Crown &amp; Fade</div>
+        <div class="sub">The Chair Club</div>
+      </div>
+    </div>
+
+    <div class="toggle-wrap">
+      <div class="toggle-labels">
+        <span class="active" id="labelApp">Client App</span>
+        <span id="labelWeb">Shop Dashboard</span>
+      </div>
+      <div class="pole-toggle" id="poleToggle" role="button" aria-label="Switch between client app and shop dashboard">
+        <div class="pole-knob" id="poleKnob">APP</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:flex-start;">
+<div class="demo-tag"><span class="dot"></span> Live product demo</div>
+<div style="font-size:11px;color:var(--steel);margin-top:6px;">Built by Yousef A. on 22/7/2026</div>
+</div>
+  </div>
+
+  <div class="stage">
+
+    <!-- DEVICE COLUMN -->
+    <div class="device-col">
+
+      <!-- PHONE VIEW -->
+      <div class="view-flex active" id="phoneView">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="island"></div>
+            <div class="status-row"><span>9:41</span><span>5G 100%</span></div>
+            
+            <!-- Dynamic Screen Container -->
+            <div class="app-screen" id="appContent">
+              <!-- Default Home view rendered by JS on load -->
+            </div>
+
+            <!-- Tab Navigation Bar -->
+            <div class="tabbar">
+              <div class="tab active" onclick="switchAppTab('home', this)">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Home
+              </div>
+              <div class="tab" onclick="switchAppTab('bookings', this)">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                Bookings
+              </div>
+              <div class="tab" onclick="switchAppTab('rewards', this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                Rewards
+              </div>
+              <div class="tab" onclick="switchAppTab('profile', this)">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Profile
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-caption">iPhone 17 Pro Max · Client App Mockup</div>
+      </div>
+
+      <!-- DASHBOARD VIEW -->
+      <div class="view" id="webView">
+        <div class="browser-frame">
+          <div class="browser-top">
+            <div class="browser-dot" style="background:#a8322b;"></div>
+            <div class="browser-dot" style="background:#b8925a;"></div>
+            <div class="browser-dot" style="background:#4a6350;"></div>
+            <div class="browser-url" id="browserUrl">app.crownandfade.com/dashboard</div>
+          </div>
+          <div class="dash-body">
+            <div class="dash-sidebar">
+              <div class="brand-mini">Crown &amp; Fade</div>
+              <div class="nav-item active" onclick="switchDashNav(this, 'Dashboard')"><span class="dotico"></span>Dashboard</div>
+              <div class="nav-item" onclick="switchDashNav(this, 'Appointments')"><span class="dotico"></span>Appointments</div>
+              <div class="nav-item" onclick="switchDashNav(this, 'Clients')"><span class="dotico"></span>Clients</div>
+              <div class="nav-item" onclick="switchDashNav(this, 'Loyalty Program')"><span class="dotico"></span>Loyalty Program</div>
+              <div class="nav-item" onclick="switchDashNav(this, 'Barbers')"><span class="dotico"></span>Barbers</div>
+              <div class="nav-item" onclick="switchDashNav(this, 'Reports')"><span class="dotico"></span>Reports</div>
+              <div class="nav-item" onclick="switchDashNav(this, 'Settings')"><span class="dotico"></span>Settings</div>
+            </div>
+            <div class="dash-main">
+              <div class="dash-header">
+                <h2 id="dashTitle">Today at the shop</h2>
+                <div class="date">Thu, Jul 30</div>
+              </div>
+
+              <div class="stat-grid">
+                <div class="stat-card"><div class="label">Appointments</div><div class="value" id="dashApptCount">18</div></div>
+                <div class="stat-card"><div class="label">Revenue</div><div class="value">$1,240</div></div>
+                <div class="stat-card"><div class="label">New Members</div><div class="value">6</div></div>
+                <div class="stat-card"><div class="label">Points Redeemed</div><div class="value" id="dashRedeemed">1,850</div></div>
+              </div>
+
+              <div class="dash-columns">
+                <div class="panel">
+                  <h3>Upcoming Appointments</h3>
+                  <table>
+                    <thead>
+                      <tr><th>Time</th><th>Client</th><th>Barber</th><th>Status</th></tr>
+                    </thead>
+                    <tbody id="dashApptTable">
+                      <tr><td>2:00 PM</td><td>J. Alvarez</td><td>Dre</td><td><span class="status-pill">Confirmed</span></td></tr>
+                      <tr><td>2:30 PM</td><td>M. Reid</td><td>Dre</td><td><span class="status-pill">Confirmed</span></td></tr>
+                      <tr><td>3:00 PM</td><td>K. Chen</td><td>Sam</td><td><span class="status-pill">Waitlist</span></td></tr>
+                      <tr><td>3:30 PM</td><td>T. Boone</td><td>Sam</td><td><span class="status-pill">Confirmed</span></td></tr>
+                    </tbody>
+                  </table>
+
+                  <h3 style="margin-top:22px;">Points Issued This Week</h3>
+                  <div class="bar-chart">
+                    <div class="bar" style="height:40%;"><span>Mon</span></div>
+                    <div class="bar" style="height:55%;"><span>Tue</span></div>
+                    <div class="bar" style="height:35%;"><span>Wed</span></div>
+                    <div class="bar" style="height:70%;"><span>Thu</span></div>
+                    <div class="bar" style="height:60%;"><span>Fri</span></div>
+                    <div class="bar" style="height:90%;"><span>Sat</span></div>
+                    <div class="bar" style="height:48%;"><span>Sun</span></div>
+                  </div>
+                </div>
+
+                <div class="panel">
+                  <h3>Top Chair Club Members</h3>
+                  <div class="leader-row"><span class="leader-name">Marcus Reid</span><span class="leader-pts" id="leaderMarcus">1,240 pts</span></div>
+                  <div class="leader-row"><span class="leader-name">Priya Nair</span><span class="leader-pts">980 pts</span></div>
+                  <div class="leader-row"><span class="leader-name">Tyrell Boone</span><span class="leader-pts">870 pts</span></div>
+                  <div class="leader-row"><span class="leader-name">Kevin Chen</span><span class="leader-pts">760 pts</span></div>
+                  <div class="leader-row"><span class="leader-name">Alvarez Family</span><span class="leader-pts">640 pts</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FEATURE COLUMN -->
+    <div class="features">
+
+      <div id="featuresApp" class="fade-in">
+        <div class="eyebrow">Client App</div>
+        <h3>What the client taps</h3>
+        <p class="desc">A digital chair card that replaces the paper punch card, built for a client booking their next fade in under a minute.</p>
+        <ul class="feature-list">
+          <li>
+            <div class="feature-check">✓</div>
+            <div><div class="f-title">Red & Blue Barber Striped Bar</div><div class="f-desc">Iconic animated progress bar showing live loyalty progress.</div></div>
+          </li>
+          <li>
+            <div class="feature-check">✓</div>
+            <div><div class="f-title">Multi-step Interactive Booking</div><div class="f-desc">Select service, preferred barber, date, time slots, and extra add-ons.</div></div>
+          </li>
+          <li>
+            <div class="feature-check">✓</div>
+            <div><div class="f-title">Bookings Manager</div><div class="f-desc">View active upcoming reservations alongside complete historical visits.</div></div>
+          </li>
+          <li>
+            <div class="feature-check">✓</div>
+            <div><div class="f-title">Reward Redemption</div><div class="f-desc">Points apply directly to treatments or products with live balance updates.</div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div id="featuresWeb" class="fade-in" style="display:none;">
+        <div class="eyebrow">Shop Dashboard</div>
+        <h3>What the owner sees</h3>
+        <p class="desc">A single console for running the chairs, the schedule, and the loyalty program without a spreadsheet in sight.</p>
+        <ul class="feature-list">
+          <li>
+            <div class="feature-check">✓</div>
+            <div><div class="f-title">Live appointment calendar</div><div class="f-desc">Every chair, every barber, updated the moment a client books or cancels.</div></div>
+          </li>
+          <li>
+            <div class="feature-check">✓</div>
+            <div><div class="f-title">Loyalty program builder</div><div class="f-desc">Set point rules, tiers, and the reward catalog without touching code.</div></div>
+          </li>
+          <li>
+            <div class="feature-check">✓</div>
+            <div><div class="f-title">Client profiles</div><div class="f-desc">Visit history, preferences, and lifetime spend in one place per client.</div></div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+  // Global State
+  let onWeb = false;
+  let userPoints = 340;
+  let totalRedeemed = 1850;
+  let currentBookingsTab = 'upcoming';
+
+  // Booking Draft State
+  let bookingDraft = {
+    step: 1,
+    service: 'Skin Fade & Style',
+    price: 45,
+    barber: 'Dre (Master Barber)',
+    date: '2026-08-01',
+    time: '2:30 PM',
+    addons: []
+  };
+
+  // Appointment Stores
+  let upcomingAppointments = [
+    { id: 101, when: "Fri, Aug 1 · 2:30 PM", what: "Skin Fade & Style, with Dre", price: "$45" }
+  ];
+
+  let pastAppointments = [
+    { id: 1, when: "Jul 12, 2026 · 3:00 PM", what: "Taper Cut & Hot Towel Shave", barber: "Dre", price: "$55" },
+    { id: 2, when: "Jun 24, 2026 · 1:30 PM", what: "Skin Fade & Lineup", barber: "Sam", price: "$40" },
+    { id: 3, when: "Jun 03, 2026 · 4:15 PM", what: "Beard Sculpt & Trim", barber: "Leo", price: "$30" }
+  ];
+
+  // DOM Elements
+  const poleToggle = document.getElementById('poleToggle');
+  const poleKnob = document.getElementById('poleKnob');
+  const labelApp = document.getElementById('labelApp');
+  const labelWeb = document.getElementById('labelWeb');
+  const phoneView = document.getElementById('phoneView');
+  const webView = document.getElementById('webView');
+  const featuresApp = document.getElementById('featuresApp');
+  const featuresWeb = document.getElementById('featuresWeb');
+
+  // View Switch Logic
+  function setView(toWeb) {
+    if (onWeb === toWeb) return;
+    onWeb = toWeb;
+
+    poleToggle.classList.add('spin');
+    setTimeout(() => poleToggle.classList.remove('spin'), 700);
+
+    poleToggle.classList.toggle('web', onWeb);
+    poleKnob.textContent = onWeb ? 'WEB' : 'APP';
+
+    labelApp.classList.toggle('active', !onWeb);
+    labelWeb.classList.toggle('active', onWeb);
+
+    if (onWeb) {
+      phoneView.classList.remove('active');
+      webView.classList.add('active');
+      featuresApp.style.display = 'none';
+      featuresWeb.style.display = 'block';
+    } else {
+      webView.classList.remove('active');
+      phoneView.classList.add('active');
+      featuresWeb.style.display = 'none';
+      featuresApp.style.display = 'block';
+    }
+  }
+
+  poleToggle.addEventListener('click', () => setView(!onWeb));
+  labelApp.addEventListener('click', () => setView(false));
+  labelWeb.addEventListener('click', () => setView(true));
+
+  // Client App Navigation
+  function switchAppTab(tabName, el) {
+    document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+    if(el) el.classList.add('active');
+
+    const appContent = document.getElementById('appContent');
+    
+    if (tabName === 'home') {
+      renderHomeScreen(appContent);
+    } else if (tabName === 'bookings') {
+      renderBookingsScreen(appContent);
+    } else if (tabName === 'rewards') {
+      renderRewardsScreen(appContent);
+    } else if (tabName === 'profile') {
+      renderProfileScreen(appContent);
+    }
+  }
+
+  // --- Screens ---
+
+  // 1. HOME SCREEN
+  function renderHomeScreen(container) {
+    const nextAppt = upcomingAppointments[0];
+    container.innerHTML = `
+      <div class="app-greet">Good afternoon</div>
+      <div class="app-name">Marcus Reid</div>
+
+      <div class="loyalty-card">
+        <div class="club">THE CHAIR CLUB</div>
+        <div class="tier">Silver Regular</div>
+        <div class="pts-row">
+          <div>
+            <div class="pts" id="clientPts">${userPoints}</div>
+            <div class="pts-label">POINTS BALANCE</div>
+          </div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="clientProgress" style="width: ${(userPoints/500)*100}%;"></div>
+        </div>
+        <div class="progress-note" id="progressNote">${500 - userPoints > 0 ? (500 - userPoints) + ' points to Gold status' : 'Gold Status Reached!'}</div>
+      </div>
+
+      <button class="home-book-cta" onclick="startNewBooking()">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Book Next Appointment
+      </button>
+
+      <div class="section-label">Up Next</div>
+      ${nextAppt ? `
+        <div class="appt-card">
+          <div class="info">
+            <div class="when">${nextAppt.when}</div>
+            <div class="what">${nextAppt.what}</div>
+          </div>
+          <div class="appt-chip">Confirmed</div>
+        </div>
+      ` : `<div style="font-size:12px;color:var(--steel);margin-bottom:12px;">No upcoming appointments.</div>`}
+
+      <div class="section-label">Ready to Redeem</div>
+      <div class="reward-card">
+        <div class="info">
+          <div class="title">Free beard trim</div>
+          <div class="cost">250 pts</div>
+        </div>
+        <button class="redeem-btn" onclick="redeemReward(250, 'Free beard trim')">Redeem</button>
+      </div>
+      <div class="reward-card">
+        <div class="info">
+          <div class="title">Premium pomade, full size</div>
+          <div class="cost">400 pts</div>
+        </div>
+        <button class="redeem-btn" onclick="redeemReward(400, 'Premium pomade, full size')">Redeem</button>
+      </div>
+    `;
+    updateRedeemButtons();
+  }
+
+  // 2. BOOKINGS TAB (Current & Old)
+  function renderBookingsScreen(container) {
+    container.innerHTML = `
+      <div class="app-greet">Manage Appointments</div>
+      <div class="app-name">My Bookings</div>
+
+      <button class="home-book-cta" style="margin-bottom:14px;" onclick="startNewBooking()">
+        + Reserve New Chair
+      </button>
+
+      <div class="segmented-control">
+        <div class="segment-btn ${currentBookingsTab === 'upcoming' ? 'active' : ''}" onclick="toggleBookingsSegment('upcoming')">Upcoming (${upcomingAppointments.length})</div>
+        <div class="segment-btn ${currentBookingsTab === 'past' ? 'active' : ''}" onclick="toggleBookingsSegment('past')">Past History (${pastAppointments.length})</div>
+      </div>
+
+      <div id="bookingsList">
+        ${renderBookingsList()}
+      </div>
+    `;
+  }
+
+  function toggleBookingsSegment(tab) {
+    currentBookingsTab = tab;
+    document.querySelectorAll('.segment-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('bookingsList').innerHTML = renderBookingsList();
+  }
+
+  function renderBookingsList() {
+    if (currentBookingsTab === 'upcoming') {
+      if (upcomingAppointments.length === 0) {
+        return `<div style="text-align:center;padding:30px 0;font-size:12px;color:var(--steel);">No upcoming appointments.</div>`;
+      }
+      return upcomingAppointments.map(a => `
+        <div class="appt-card">
+          <div class="info">
+            <div class="when">${a.when}</div>
+            <div class="what">${a.what}</div>
+            <div style="font-size:11px;color:var(--brass-light);margin-top:4px;font-family:var(--font-mono);">${a.price}</div>
+          </div>
+          <div class="appt-chip">Confirmed</div>
+        </div>
+      `).join('');
+    } else {
+      return pastAppointments.map(a => `
+        <div class="appt-card">
+          <div class="info">
+            <div class="when">${a.when}</div>
+            <div class="what">${a.what}</div>
+            <div style="font-size:11px;color:var(--steel);margin-top:4px;font-family:var(--font-mono);">${a.price}</div>
+          </div>
+          <div class="appt-chip past">Completed</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  // 3. DETAILED MULTI-STEP BOOKING FLOW
+  function startNewBooking() {
+    bookingDraft = { step: 1, service: 'Skin Fade & Style', price: 45, barber: 'Dre (Master Barber)', date: '2026-08-01', time: '2:30 PM', addons: [] };
+    renderBookingStep();
+  }
+
+  function renderBookingStep() {
+    const appContent = document.getElementById('appContent');
+    const step = bookingDraft.step;
+
+    let html = `
+      <div class="app-greet">New Reservation</div>
+      <div class="app-name">Book Appointment</div>
+
+      <div class="booking-stepper">
+        <span class="${step === 1 ? 'step-active' : ''}">1. Cut</span>
+        <span class="${step === 2 ? 'step-active' : ''}">2. Barber</span>
+        <span class="${step === 3 ? 'step-active' : ''}">3. Time</span>
+        <span class="${step === 4 ? 'step-active' : ''}">4. Addons</span>
+      </div>
+    `;
+
+    if (step === 1) {
+      html += `
+        <div class="section-label">Select Service</div>
+        
+        <div class="select-card ${bookingDraft.service === 'Skin Fade & Style' ? 'selected' : ''}" onclick="selectService('Skin Fade & Style', 45)">
+          <div class="card-head"><span class="card-title">Skin Fade & Style</span><span class="card-price">$45</span></div>
+          <div class="card-sub">45 min · Precision fade & hot towel finish</div>
+        </div>
+
+        <div class="select-card ${bookingDraft.service === 'Classic Haircut' ? 'selected' : ''}" onclick="selectService('Classic Haircut', 35)">
+          <div class="card-head"><span class="card-title">Classic Haircut</span><span class="card-price">$35</span></div>
+          <div class="card-sub">30 min · Traditional shear or clipper cut</div>
+        </div>
+
+        <div class="select-card ${bookingDraft.service === 'Beard Sculpt & Shave' ? 'selected' : ''}" onclick="selectService('Beard Sculpt & Shave', 30)">
+          <div class="card-head"><span class="card-title">Beard Sculpt & Shave</span><span class="card-price">$30</span></div>
+          <div class="card-sub">30 min · Straight razor lineup & oils</div>
+        </div>
+
+        <div class="select-card ${bookingDraft.service === 'The Royal Treatment' ? 'selected' : ''}" onclick="selectService('The Royal Treatment', 75)">
+          <div class="card-head"><span class="card-title">The Royal Treatment</span><span class="card-price">$75</span></div>
+          <div class="card-sub">75 min · Cut, beard, scalp treatment & shave</div>
+        </div>
+
+        <button class="action-btn" onclick="nextBookingStep(2)">Next: Choose Barber →</button>
+      `;
+    } else if (step === 2) {
+      html += `
+        <div class="section-label">Select Barber</div>
+
+        <div class="select-card ${bookingDraft.barber.includes('Dre') ? 'selected' : ''}" onclick="selectBarber('Dre (Master Barber)')">
+          <div class="card-head"><span class="card-title">Dre</span><span class="card-price">Master Barber</span></div>
+          <div class="card-sub">Specialist in skin fades & sharp razor work</div>
+        </div>
+
+        <div class="select-card ${bookingDraft.barber.includes('Sam') ? 'selected' : ''}" onclick="selectBarber('Sam (Senior Stylist)')">
+          <div class="card-head"><span class="card-title">Sam</span><span class="card-price">Senior Stylist</span></div>
+          <div class="card-sub">Expert in scissor cuts & textured styling</div>
+        </div>
+
+        <div class="select-card ${bookingDraft.barber.includes('Leo') ? 'selected' : ''}" onclick="selectBarber('Leo (Beard Specialist)')">
+          <div class="card-head"><span class="card-title">Leo</span><span class="card-price">Beard Specialist</span></div>
+          <div class="card-sub">Precision beard shaping & traditional shaves</div>
+        </div>
+
+        <button class="action-btn" onclick="nextBookingStep(3)">Next: Choose Date & Time →</button>
+        <button class="action-btn secondary" onclick="nextBookingStep(1)">← Back</button>
+      `;
+    } else if (step === 3) {
+      html += `
+        <div class="section-label">Select Date & Time</div>
+        
+        <div class="form-group" style="margin-bottom:12px;">
+          <label style="font-size:11px;color:var(--steel);margin-bottom:4px;display:block;">Date</label>
+          <input type="date" id="bookDateInput" class="booking-input" value="${bookingDraft.date}" onchange="bookingDraft.date=this.value">
+        </div>
+
+        <div class="section-label">Time Slot</div>
+        <div class="time-slots">
+          <div class="time-slot ${bookingDraft.time === '1:00 PM' ? 'selected' : ''}" onclick="selectBookingTime(this, '1:00 PM')">1:00 PM</div>
+          <div class="time-slot ${bookingDraft.time === '1:45 PM' ? 'selected' : ''}" onclick="selectBookingTime(this, '1:45 PM')">1:45 PM</div>
+          <div class="time-slot ${bookingDraft.time === '2:30 PM' ? 'selected' : ''}" onclick="selectBookingTime(this, '2:30 PM')">2:30 PM</div>
+          <div class="time-slot ${bookingDraft.time === '3:15 PM' ? 'selected' : ''}" onclick="selectBookingTime(this, '3:15 PM')">3:15 PM</div>
+          <div class="time-slot ${bookingDraft.time === '4:00 PM' ? 'selected' : ''}" onclick="selectBookingTime(this, '4:00 PM')">4:00 PM</div>
+          <div class="time-slot ${bookingDraft.time === '5:00 PM' ? 'selected' : ''}" onclick="selectBookingTime(this, '5:00 PM')">5:00 PM</div>
+        </div>
+
+        <button class="action-btn" onclick="nextBookingStep(4)">Next: Select Add-ons →</button>
+        <button class="action-btn secondary" onclick="nextBookingStep(2)">← Back</button>
+      `;
+    } else if (step === 4) {
+      html += `
+        <div class="section-label">Enhance Your Visit</div>
+
+        <div class="addon-option">
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--ivory);">Hot Towel Treatment</div>
+            <div style="font-size:10px;color:var(--steel);">+$10 · Essential oils relaxation</div>
+          </div>
+          <input type="checkbox" onchange="toggleAddon('Hot Towel', 10, this.checked)">
+        </div>
+
+        <div class="addon-option">
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--ivory);">Scalp Detox Massage</div>
+            <div style="font-size:10px;color:var(--steel);">+$15 · 10 min therapeutic massage</div>
+          </div>
+          <input type="checkbox" onchange="toggleAddon('Scalp Detox', 15, this.checked)">
+        </div>
+
+        <div class="addon-option">
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--ivory);">Beard Conditioning</div>
+            <div style="font-size:10px;color:var(--steel);">+$12 · Hydrating balm treatment</div>
+          </div>
+          <input type="checkbox" onchange="toggleAddon('Beard Conditioning', 12, this.checked)">
+        </div>
+
+        <div class="section-label">Booking Summary</div>
+        <div class="appt-card" style="flex-direction:column;align-items:flex-start;gap:6px;">
+          <div style="font-size:13px;font-weight:600;color:var(--brass-light);">${bookingDraft.service}</div>
+          <div style="font-size:11px;color:var(--steel);">Barber: ${bookingDraft.barber}</div>
+          <div style="font-size:11px;color:var(--steel);">Time: ${bookingDraft.date} @ ${bookingDraft.time}</div>
+          <div style="font-size:12px;font-weight:700;color:var(--ivory);margin-top:4px;">Total Estimated: $${calculateTotal()}</div>
+        </div>
+
+        <button class="action-btn" onclick="finalizeBooking()">Confirm & Book Now</button>
+        <button class="action-btn secondary" onclick="nextBookingStep(3)">← Back</button>
+      `;
+    }
+
+    appContent.innerHTML = html;
+  }
+
+  function selectService(name, price) {
+    bookingDraft.service = name;
+    bookingDraft.price = price;
+    renderBookingStep();
+  }
+
+  function selectBarber(barber) {
+    bookingDraft.barber = barber;
+    renderBookingStep();
+  }
+
+  function selectBookingTime(elem, time) {
+    bookingDraft.time = time;
+    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+    elem.classList.add('selected');
+  }
+
+  function toggleAddon(name, price, isChecked) {
+    if (isChecked) {
+      bookingDraft.addons.push({ name, price });
+    } else {
+      bookingDraft.addons = bookingDraft.addons.filter(a => a.name !== name);
+    }
+    renderBookingStep();
+  }
+
+  function calculateTotal() {
+    let total = bookingDraft.price;
+    bookingDraft.addons.forEach(a => total += a.price);
+    return total;
+  }
+
+  function nextBookingStep(stepNum) {
+    bookingDraft.step = stepNum;
+    renderBookingStep();
+  }
+
+  function finalizeBooking() {
+    const dateObj = new Date(bookingDraft.date + 'T00:00:00');
+    const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+    const newAppt = {
+      id: Date.now(),
+      when: `${formattedDate} · ${bookingDraft.time}`,
+      what: `${bookingDraft.service}, with ${bookingDraft.barber.split(' ')[0]}`,
+      price: `$${calculateTotal()}`
+    };
+
+    upcomingAppointments.unshift(newAppt);
+
+    // Sync with Dashboard
+    const dashTable = document.getElementById('dashApptTable');
+    if (dashTable) {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `<td>${bookingDraft.time}</td><td>M. Reid</td><td>${bookingDraft.barber.split(' ')[0]}</td><td><span class="status-pill">Confirmed</span></td>`;
+      dashTable.appendChild(newRow);
+      
+      const countElem = document.getElementById('dashApptCount');
+      countElem.innerText = parseInt(countElem.innerText) + 1;
+    }
+
+    alert('Appointment successfully booked!');
+    
+    // Switch to Bookings Tab
+    const bookingsTabNav = document.querySelectorAll('.tabbar .tab')[1];
+    switchAppTab('bookings', bookingsTabNav);
+  }
+
+  // 4. REWARDS SCREEN
+  function renderRewardsScreen(container) {
+    container.innerHTML = `
+      <div class="app-greet">The Chair Club</div>
+      <div class="app-name">Rewards Catalog</div>
+
+      <div class="reward-card">
+        <div class="info">
+          <div class="title">Free beard trim</div>
+          <div class="cost">250 pts</div>
+        </div>
+        <button class="redeem-btn" onclick="redeemReward(250, 'Free beard trim')">Redeem</button>
+      </div>
+      <div class="reward-card">
+        <div class="info">
+          <div class="title">Premium pomade, full size</div>
+          <div class="cost">400 pts</div>
+        </div>
+        <button class="redeem-btn" onclick="redeemReward(400, 'Premium pomade, full size')">Redeem</button>
+      </div>
+      <div class="reward-card">
+        <div class="info">
+          <div class="title">Hot Towel Shave Add-on</div>
+          <div class="cost">150 pts</div>
+        </div>
+        <button class="redeem-btn" onclick="redeemReward(150, 'Hot Towel Shave Add-on')">Redeem</button>
+      </div>
+      <div class="reward-card">
+        <div class="info">
+          <div class="title">Complimentary Haircut</div>
+          <div class="cost">600 pts</div>
+        </div>
+        <button class="redeem-btn" onclick="redeemReward(600, 'Complimentary Haircut')">Redeem</button>
+      </div>
+    `;
+    updateRedeemButtons();
+  }
+
+  // 5. PROFILE SCREEN
+  function renderProfileScreen(container) {
+    container.innerHTML = `
+      <div class="app-greet">Member Account</div>
+      <div class="app-name">Marcus Reid</div>
+
+      <div class="appt-card">
+        <div class="info">
+          <div class="when">Member ID</div>
+          <div class="what">#CF-89210</div>
+        </div>
+        <div class="appt-chip">Active</div>
+      </div>
+
+      <div class="section-label">Preferences</div>
+      <div class="history-row"><span class="visit">Preferred Barber</span><span class="earned">Dre</span></div>
+      <div class="history-row"><span class="visit">Preferred Drink</span><span class="earned">Espresso</span></div>
+      <div class="history-row"><span class="visit">Haircut Style</span><span class="earned">Mid-skin fade</span></div>
+    `;
+  }
+
+  // Rewards Logic
+  function redeemReward(cost, title) {
+    if (userPoints >= cost) {
+      userPoints -= cost;
+      totalRedeemed += cost;
+      
+      const ptsElem = document.getElementById('clientPts');
+      if(ptsElem) ptsElem.innerText = userPoints;
+
+      const progressElem = document.getElementById('clientProgress');
+      if(progressElem) progressElem.style.width = `${Math.min(100, Math.max(0, (userPoints / 500) * 100))}%`;
+      
+      const noteElem = document.getElementById('progressNote');
+      if(noteElem) {
+        const needed = 500 - userPoints;
+        noteElem.innerText = needed > 0 ? `${needed} points to Gold status` : `Gold Status Reached!`;
+      }
+
+      document.getElementById('dashRedeemed').innerText = totalRedeemed.toLocaleString();
+      updateRedeemButtons();
+      alert(`Successfully redeemed: ${title}!`);
+    }
+  }
+
+  function updateRedeemButtons() {
+    const btns = document.querySelectorAll('.redeem-btn');
+    btns.forEach(btn => {
+      const card = btn.closest('.reward-card');
+      if(card){
+        const costText = card.querySelector('.cost').innerText;
+        const cost = parseInt(costText);
+        if (userPoints < cost) {
+          btn.disabled = true;
+          btn.innerText = 'Insufficient Pts';
+        }
+      }
+    });
+  }
+
+  // Dashboard Nav Switching
+  function switchDashNav(el, title) {
+    document.querySelectorAll('.dash-sidebar .nav-item').forEach(item => item.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('dashTitle').innerText = title;
+    document.getElementById('browserUrl').innerText = `app.crownandfade.com/${title.toLowerCase().replace(/\s+/g, '-')}`;
+  }
+
+  // Initialize Home View on Load
+  switchAppTab('home', document.querySelectorAll('.tabbar .tab')[0]);
+</script>
+
+</body>
+</html>

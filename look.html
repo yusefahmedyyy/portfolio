@@ -1,348 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Carousel with Fixed Height</title>
+    <title>L00CS — App Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 0%, #1a1c29 0%, #0a0b10 100%);
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevents the page from scrolling */
-            height: 100vh; /* Ensure the body takes up full height without scrolling */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-image: url('images/webback.jpg'); /* Add your background image here */
-            background-size: cover; /* Ensure the background covers the whole page */
-            background-position: center; /* Center the background image */
-            background-repeat: repeat; /* Prevent repeating the background image */
-        }
-
-        .carousel-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            background: rgba(234, 37, 37, 0.064); /* Optional: Add a semi-transparent background to the carousel container */
-            border-radius: 10px; /* Optional: Add rounded corners */
-            padding: 20px; /* Optional: Add some padding */
-            box-sizing: border-box;
-            flex-direction: row;
-            height: 100%; /* Fixes height to prevent page movement */
-        }
-
-        .description {
-            width: 45%;
-            padding: 30px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            border-radius: 100px;
-            text-align: center;
-    
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-        }
-
-        .description.left {
-            text-align: right;
-        }
-
-        .description.right {
-            text-align: left;
-        }
-
-        .carousel-wrapper {
-            width: 100%;
-            max-width: 500px;
-            height: 100%; /* Ensures the carousel maintains a fixed height */
             overflow: hidden;
-            position: relative;
-            flex-shrink: 0;
+            padding: 20px;
         }
 
-        .carousel {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
+        /* --- Main Showcase Container --- */
+        .showcase-container {
+            display: grid;
+            grid-template-columns: 1fr 400px 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1400px;
+            height: 80vh;
+            max-height: 750px;
+            align-items: center;
+            z-index: 1;
+        }
+
+        /* --- Description Panels --- */
+        .description-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 36px;
             height: 100%;
+            max-height: 600px;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .description-card::-webkit-scrollbar {
+            width: 4px;
+        }
+        .description-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .description-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #f8fafc;
+            letter-spacing: -0.02em;
+        }
+
+        .description-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            white-space: pre-line; /* Respects line breaks from data attributes */
+        }
+
+        /* --- Carousel Wrapper & Phone Frame --- */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-height: 680px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-viewport {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 36px;
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 0 50px var(--accent-glow);
+        }
+
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .slide {
             min-width: 100%;
             height: 100%;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             cursor: pointer;
         }
 
-        .slide img,
-        .slide video {
-            width: 90%;
-            height: 90%;
+        .slide img {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
-            position: fixed;
-            display: flex;
-            border-radius: 25px;
-            justify-content: center;
-            align-items: center;
+            border-radius: 16px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+            transition: transform 0.3s ease;
         }
 
-        .slide .prev,
-        .slide .next {
+        .slide:hover img {
+            transform: scale(1.02);
+        }
+
+        /* --- Custom Navigation Controls --- */
+        .nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            border: none;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            z-index: 2;
-            font-size: 20px;
-            line-height: 1;
-            width: 40px;
-            height: 40px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--card-border);
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
         }
 
-        .slide .prev {
-            left: 10px;
+        .nav-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            scale: 1.05;
         }
 
-        .slide .next {
-            right: 10px;
+        .nav-btn.prev { left: -22px; }
+        .nav-btn.next { right: -22px; }
+
+        /* --- Pagination Indicators --- */
+        .pagination-dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
         }
 
-        .fullscreen-img {
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--card-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            width: 24px;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        /* --- Fullscreen Lightbox --- */
+        .fullscreen-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(15px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            visibility: hidden;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        .fullscreen-img img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-        }
-
-        .fullscreen-img.visible {
-            visibility: visible;
+        .fullscreen-modal.visible {
             opacity: 1;
+            pointer-events: auto;
         }
 
-        .close-fullscreen {
+        .fullscreen-modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .close-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 30px;
+            top: 30px;
+            right: 30px;
+            color: #fff;
+            font-size: 32px;
             cursor: pointer;
-            z-index: 1001;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
         }
 
-        @media (max-width: 768px) {
-            .carousel-container {
-                flex-direction: column;
-            }
+        .close-btn:hover { opacity: 1; }
 
-            .description {
-                width: 100%;
-                margin-bottom: 10px;
-                padding: 10px;
-            }
-
-            .carousel-wrapper {
-                width: 100%;
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            body { overflow-y: auto; height: auto; }
+            .showcase-container {
+                grid-template-columns: 1fr;
                 height: auto;
-                max-width: none;
+                max-height: none;
+                gap: 24px;
             }
-
-            .slide {
-                height: 650px;
-            }
-        }
-
-        @media (max-width: 480px) {
             .carousel-wrapper {
-                height: 500px;
+                height: 550px;
+                order: -1;
             }
-
-            .slide {
-                height: 500px;
-            }
-
-            .slide .prev,
-            .slide .next {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
+            .nav-btn.prev { left: 10px; }
+            .nav-btn.next { right: 10px; }
+            .description-card {
+                max-height: none;
+                height: auto;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="carousel-container">
-        <div class="description left">
-            <p>This is the left description.</p>
+
+    <div class="showcase-container">
+        <!-- Left Column -->
+        <div class="description-card left">
+            <h3>Overview</h3>
+            <p id="leftDescText">Select a slide to view details.</p>
         </div>
 
+        <!-- Center Column (Carousel) -->
         <div class="carousel-wrapper">
-            <div class="carousel">
-               
-                <div class="slide" data-left-description="L00CS – Egypt’s Local Fashion Hub" data-right-description="L00CS is a multi-vendor mobile platform designed to bring Egypt’s top local fashion brands into one sleek, easy-to-use app. Customers can browse and order products from multiple brands in a single checkout, while L00CS handles warehousing, delivery, and customer service.
+            <button class="nav-btn prev" aria-label="Previous Slide">&#10094;</button>
+            <button class="nav-btn next" aria-label="Next Slide">&#10095;</button>
+            
+            <div class="carousel-viewport">
+                <div class="carousel-track">
+                    
+                    <div class="slide" 
+                         data-left-description="L00CS – Egypt’s Local Fashion Hub" 
+                         data-right-description="L00CS is a multi-vendor mobile platform designed to bring Egypt’s top local fashion brands into one sleek, easy-to-use app. Customers can browse and order products from multiple brands in a single checkout, while L00CS handles warehousing, delivery, and customer service.
 
 Key features:
+• Multi-brand shopping cart with seamless checkout
+• Real-time inventory updates and order tracking
+• Firebase integration for authentication and database management
+• Brand onboarding, stock management, and performance insights
+• Built-in notification system for sellers and delivery agents">
+                        <img src="images/looks/IMG_0867.PNG" alt="L00CS Screen 1">
+                    </div>
 
-Multi-brand shopping cart with seamless checkout
+                    <div class="slide" 
+                         data-left-description="Seamless Shopping Experience" 
+                         data-right-description="Browse through curated collections from local creators with rich imagery, detailed sizing charts, and integrated customer reviews.">
+                        <img src="images/looks/IMG_0868.PNG" alt="L00CS Screen 2">
+                    </div>
 
-Real-time inventory updates and order tracking
+                    <div class="slide" 
+                         data-left-description="Unified Checkout & Logistics" 
+                         data-right-description="Add items from different stores to a single basket. Optimized delivery pathways ensure packages arrive bundled together efficiently.">
+                        <img src="images/looks/IMG_0869.PNG" alt="L00CS Screen 3">
+                    </div>
 
-Firebase integration for authentication and database management
+                    <div class="slide" 
+                         data-left-description="Real-Time Order Tracking" 
+                         data-right-description="Follow your package status step-by-step from warehouse selection to doorstep delivery with real-time push updates.">
+                        <img src="images/looks/IMG_0870.PNG" alt="L00CS Screen 4">
+                    </div>
 
-Brand onboarding, stock management, and performance insights
+                    <div class="slide" 
+                         data-left-description="Brand Partner Hub" 
+                         data-right-description="Empowering local vendors with live stock metrics, order management tools, and automated payout calculations.">
+                        <img src="images/looks/IMG_0871.PNG" alt="L00CS Screen 5">
+                    </div>
 
-Built-in notification system for sellers and delivery agents
+                    <div class="slide" 
+                         data-left-description="Instant Notifications" 
+                         data-right-description="Stay updated on exclusive local drops, restocks, and order progress notifications tailored to user preferences.">
+                        <img src="images/looks/IMG_0872.PNG" alt="L00CS Screen 6">
+                    </div>
 
-Designed with scalability and user experience in mind, L00CS empowers local businesses and simplifies fashion shopping for modern Egyptian consumers.
+                    <div class="slide" 
+                         data-left-description="Sleek Mobile Interface" 
+                         data-right-description="Designed natively with modern aesthetic principles ensuring smooth navigation, accessibility, and high performance.">
+                        <img src="images/looks/IMG_0873.PNG" alt="L00CS Screen 7">
+                    </div>
 
-">
-                    <img src="images/looks/IMG_0867.PNG" alt="Photo 1">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
+                    <div class="slide" 
+                         data-left-description="Fostering Local Growth" 
+                         data-right-description="Connecting contemporary Egyptian fashion enthusiasts directly with emerging local designers and artisans.">
+                        <img src="images/looks/IMG_0874.PNG" alt="L00CS Screen 8">
+                    </div>
+
                 </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/looks/IMG_0868.PNG" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                   <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/looks/IMG_0869.PNG" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/looks/IMG_0870.PNG" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/looks/IMG_0871.PNG" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/looks/IMG_0872.PNG" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/looks/IMG_0873.PNG" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-                <div class="slide" data-left-description="" data-right-description="">
-                    <img src="images/looks/IMG_0874.PNG" alt="Photo 4">
-                    <button class="prev">&lt;</button>
-                    <button class="next">&gt;</button>
-                </div>
-               
-             
             </div>
+
+            <!-- Dynamic Pagination Dots -->
+            <div class="pagination-dots"></div>
         </div>
 
-        <div class="description right">
-            <p>This is the right description.</p>
+        <!-- Right Column -->
+        <div class="description-card right">
+            <h3>Details & Features</h3>
+            <p id="rightDescText">Select a slide to view details.</p>
         </div>
     </div>
 
-    <div class="fullscreen-img">
-        <span class="close-fullscreen">&times;</span>
-        <img src="" alt="Fullscreen Image">
+    <!-- Fullscreen Lightbox Modal -->
+    <div class="fullscreen-modal">
+        <span class="close-btn">&times;</span>
+        <img src="" alt="Expanded View">
     </div>
 
     <script>
-        const carousel = document.querySelector('.carousel');
+        const track = document.querySelector('.carousel-track');
         const slides = document.querySelectorAll('.slide');
-        const fullscreenImg = document.querySelector('.fullscreen-img');
-        const fullscreenImgTag = fullscreenImg.querySelector('img');
-        const closeFullscreen = document.querySelector('.close-fullscreen');
+        const prevBtn = document.querySelector('.nav-btn.prev');
+        const nextBtn = document.querySelector('.nav-btn.next');
+        const dotsContainer = document.querySelector('.pagination-dots');
+        
+        const leftDescText = document.getElementById('leftDescText');
+        const rightDescText = document.getElementById('rightDescText');
+        
+        const modal = document.querySelector('.fullscreen-modal');
+        const modalImg = modal.querySelector('img');
+        const closeBtn = document.querySelector('.close-btn');
+
         let currentIndex = 0;
 
-        function showSlide(index) {
-            carousel.style.transform = `translateX(-${index * 100}%)`;
-            updateDescriptions(index);
-        }
+        // Create pagination dots dynamically
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(idx));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
 
         function updateDescriptions(index) {
-            const leftDesc = document.querySelector('.description.left p');
-            const rightDesc = document.querySelector('.description.right p');
             const slide = slides[index];
-            leftDesc.textContent = slide.dataset.leftDescription;
-            rightDesc.textContent = slide.dataset.rightDescription;
+            const leftContent = slide.dataset.leftDescription.trim();
+            const rightContent = slide.dataset.rightDescription.trim();
+
+            leftDescText.textContent = leftContent || "No overview provided for this screen.";
+            rightDescText.textContent = rightContent || "No additional details available for this screen.";
         }
 
-        function showPrevSlide() {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
-            showSlide(currentIndex);
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Update dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+
+            // Update descriptions
+            updateDescriptions(currentIndex);
         }
 
-        function showNextSlide() {
-            currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
-            showSlide(currentIndex);
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            goToSlide(currentIndex);
         }
 
-        slides.forEach((slide, index) => {
-            const prevButton = slide.querySelector('.prev');
-            const nextButton = slide.querySelector('.next');
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            goToSlide(currentIndex);
+        }
 
-            prevButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                event.preventDefault(); // Prevent default scrolling
-                showPrevSlide();
-            });
+        // Event Listeners
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
 
-            nextButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                event.preventDefault(); // Prevent default scrolling
-                showNextSlide();
-            });
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'Escape' && modal.classList.contains('visible')) {
+                modal.classList.remove('visible');
+            }
+        });
 
-            slide.addEventListener('click', function () {
-                const imgSrc = this.querySelector('img').src;
-                fullscreenImgTag.src = imgSrc;
-                fullscreenImg.classList.add('visible');
+        // Click slide image to view full screen
+        slides.forEach(slide => {
+            slide.addEventListener('click', () => {
+                const img = slide.querySelector('img');
+                modalImg.src = img.src;
+                modal.classList.add('visible');
             });
         });
 
-        closeFullscreen.addEventListener('click', () => {
-            fullscreenImg.classList.remove('visible');
+        closeBtn.addEventListener('click', () => modal.classList.remove('visible'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('visible');
         });
 
-        // Show the first slide and descriptions initially
-        showSlide(currentIndex);
+        // Initialize First Slide
+        goToSlide(0);
     </script>
-    <footer style="position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 24px; color: white; ">
-    <!-- <a href="https://x-care-lemon.vercel.app/Home" style="color: white; margin: 0 15px; text-decoration: underline;">Website</a> -->
-    <!-- <a href="https://example.com/about" style="color: white; margin: 0 15px; text-decoration: none;">About</a>
-    <a href="https://example.com/contact" style="color: white; margin: 0 15px; text-decoration: none;">Contact</a> -->
-</footer>
-
 </body>
-
 </html>
